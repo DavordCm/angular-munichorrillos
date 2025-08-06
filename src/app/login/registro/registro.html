@@ -1,0 +1,21 @@
+<form (submit)="handleSubmit($event)" class="register-container">
+  <h2>Registro de Usuario</h2>
+
+  <input type="text" placeholder="Nombre" name="nombreU" [(ngModel)]="formData.nombreU" required />
+  <input type="text" placeholder="Apellido" name="apellidoU" [(ngModel)]="formData.apellidoU" required />
+  <input type="text" placeholder="Dirección" name="direccion" [(ngModel)]="formData.direccion" required />
+  <input type="text" placeholder="Teléfono" name="telefono" [(ngModel)]="formData.telefono" required />
+  <input type="email" placeholder="Correo Electrónico" name="email" [(ngModel)]="formData.email" required />
+
+  <input type="password" placeholder="Contraseña" name="contrasena" [(ngModel)]="formData.contrasena" required />
+  <input type="password" placeholder="Confirmar Contraseña" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required />
+
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+  <div *ngIf="success" class="success-message">✅ Registro exitoso. Redirigiendo...</div>
+
+  <button type="submit">Registrarse</button>
+
+  <p class="login-link" (click)="router.navigate(['/login_user'])">
+    ¿Ya tienes cuenta? <span>Inicia sesión aquí</span>
+  </p>
+</form>

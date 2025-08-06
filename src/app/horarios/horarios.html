@@ -1,0 +1,60 @@
+<div class="horario-container">
+  <div class="header-horario">
+    <button class="btn regresar" (click)="regresar()">⬅ Regresar</button>
+  </div>
+
+  <div *ngIf="horarioEdicion; else lista">
+    <h3>Editar Horario</h3>
+    <form (ngSubmit)="actualizarHorario()">
+      <label>Entrada:
+        <input type="time" [(ngModel)]="horarioEdicion.entrada" name="entrada" />
+      </label>
+      <label>Salida:
+        <input type="time" [(ngModel)]="horarioEdicion.salida" name="salida" />
+      </label>
+
+      <label>Días Trabajados:</label>
+      <select multiple [(ngModel)]="horarioEdicion.diasTrabajados" name="dias">
+        <option *ngFor="let dia of dias" [value]="normalizarTexto(dia.etiqueta)">
+          {{ dia.etiqueta }}
+        </option>
+      </select>
+
+      <button type="submit">Actualizar</button>
+      <button type="button" (click)="cancelarEdicion()">Cancelar</button>
+    </form>
+  </div>
+
+  <ng-template #lista>
+    <table class="horario-tabla">
+      <thead>
+        <tr>
+          <th *ngFor="let dia of dias">{{ dia.etiqueta.toUpperCase() }}</th>
+          <th>ENTRADA</th>
+          <th>SALIDA</th>
+          <th>EMPLEADO</th>
+          <th>ÁREA</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let h of horarios">
+          <td *ngFor="let dia of dias">
+            <div class="circulo" [class.activo]="horarioContieneDia(h, dia.etiqueta)">
+              {{ dia.etiqueta.charAt(0) }}
+            </div>
+            <div class="nombre-dia">{{ dia.etiqueta }}</div>
+          </td>
+          <td class="hora">{{ h.entrada }}</td>
+          <td class="hora">{{ h.salida }}</td>
+          <td>{{ h.empleado }}</td>
+          <td>{{ h.area }}</td>
+          <td>
+            <button class="btn editar" (click)="editar(h)">✏ Editar</button>
+            <button class="btn eliminar" (click)="eliminar(h.id)">🗑 Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

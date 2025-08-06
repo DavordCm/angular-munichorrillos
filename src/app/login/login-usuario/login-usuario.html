@@ -1,0 +1,50 @@
+<form (submit)="handleLogin($event)" class="login-container">
+  <img src="MuniChorrillos.png" class="logo" alt="Logo MuniChorrillos" />
+
+  <h2>Iniciar Sesión como Usuario</h2>
+
+  <label for="email">Email</label>
+  <input type="email" id="email" [(ngModel)]="email" name="email" required />
+
+  <label for="password">Contraseña</label>
+  <div class="password-container">
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      id="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <button type="button" (click)="showPassword = !showPassword">
+      {{ showPassword ? '🙈' : '👁️' }}
+    </button>
+  </div>
+
+  <div class="link" (click)="openModal('Recuperación de contraseña')">¿Olvidaste tu contraseña?</div>
+  <div class="link" (click)="handleRegister()">¿No tienes una cuenta? Regístrate</div>
+
+  <button type="submit">Ingresar</button>
+  <button type="button" (click)="handleEmployeeLogin()">Ingresar como Empleado</button>
+
+  <div *ngIf="isValid === true" class="success-message">
+    ✅ Acceso Correcto. Redirigiendo...
+  </div>
+  <div *ngIf="isValid === false" class="error-message">
+    ❌ Email o Contraseña Incorrectos
+  </div>
+
+  <div class="terms-box">
+    <small>
+      Al iniciar sesión, aceptas nuestros
+      <span class="link" (click)="openModal('Términos y Condiciones')">Términos y Condiciones</span> y nuestra
+      <span class="link" (click)="openModal('Política de Privacidad')">Política de Privacidad</span>.
+    </small>
+  </div>
+
+  <div class="modal" *ngIf="modalOpen">
+    <div class="modal-content">
+      <h3>{{ modalContent }}</h3>
+      <button (click)="modalOpen = false">Cerrar</button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,55 @@
+<div class="generar-multa-container">
+  <h2>Generar Multa</h2>
+
+  <form (ngSubmit)="enviarCorreo()" #formRef="ngForm">
+    <h3>Información Vehicular</h3>
+    <input name="placa" [(ngModel)]="form.placa" placeholder="Placa" required />
+    <input name="anio" [(ngModel)]="form.anio" placeholder="Año" />
+    <input name="motor" [(ngModel)]="form.motor" placeholder="Motor" />
+    <input name="marca" [(ngModel)]="form.marca" placeholder="Marca" />
+    <input name="color" [(ngModel)]="form.color" placeholder="Color" />
+    <input name="estado" [(ngModel)]="form.estado" placeholder="Estado" />
+    <input name="modelo" [(ngModel)]="form.modelo" placeholder="Modelo" />
+
+    <h3>Información del Infractor</h3>
+    <input name="propietario" [(ngModel)]="form.propietario" placeholder="Propietario" />
+    <input name="telefono" [(ngModel)]="form.telefono" placeholder="Teléfono" />
+    <input name="direccion" [(ngModel)]="form.direccion" placeholder="Dirección" />
+    <input name="email" [(ngModel)]="form.email" placeholder="Email" type="email" required />
+
+    <h3>Municipalidad</h3>
+    <select name="fiscalizador" [(ngModel)]="form.fiscalizador">
+      <option value="">Fiscalizador</option>
+      <option value="Fiscalizador 1">Fiscalizador 1</option>
+      <option value="Fiscalizador 2">Fiscalizador 2</option>
+    </select>
+
+    <select name="deposito" [(ngModel)]="form.deposito">
+      <option value="">Depósito</option>
+      <option value="Depósito A">Depósito A</option>
+      <option value="Depósito B">Depósito B</option>
+    </select>
+
+    <select name="grua" [(ngModel)]="form.grua">
+      <option value="">Grúa</option>
+      <option value="Grúa 1">Grúa 1</option>
+      <option value="Grúa 2">Grúa 2</option>
+    </select>
+
+    <input name="lugar" [(ngModel)]="form.lugar" placeholder="Lugar" />
+    <input name="distrito" [(ngModel)]="form.distrito" placeholder="Distrito" />
+
+    <select name="ordenanza" [(ngModel)]="form.ordenanza">
+      <option value="">Ordenanza</option>
+      <option value="Ordenanza 101">Ordenanza 101</option>
+      <option value="Ordenanza 202">Ordenanza 202</option>
+    </select>
+
+    <textarea name="descripcion" [(ngModel)]="form.descripcion" placeholder="Descripción"></textarea>
+    <textarea name="observaciones" [(ngModel)]="form.observaciones" placeholder="Observaciones"></textarea>
+
+    <input name="monto" [(ngModel)]="form.monto" type="number" placeholder="Monto a Pagar" />
+
+    <button type="submit">Enviar Multa por Correo</button>
+  </form>
+</div>

@@ -1,0 +1,50 @@
+<div class="menu-background">
+  <mat-toolbar color="primary" class="menu-container">
+    <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
+
+    <button mat-button [matMenuTriggerFor]="menuMunicipalidad" (click)="openMenu('municipalidad', $event)">
+      Municipalidad <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menuMunicipalidad="matMenu" (closed)="closeMenu('municipalidad')">
+      <button mat-menu-item [routerLink]="'/horario'">Horarios</button>
+      <button mat-menu-item [routerLink]="'/gruas'">Gruas</button>
+      <button mat-menu-item [routerLink]="'/depositos'">Depósitos</button>
+      <button mat-menu-item [routerLink]="'/empleados'">Empleados</button>
+    </mat-menu>
+
+    <button mat-button [routerLink]="'/deposito'">Depósito ADM</button>
+
+    <!-- Botón simple para Fiscalización -->
+    <button mat-button [routerLink]="'/fiscalizacion'">Fiscalización</button>
+
+    <button mat-button [routerLink]="'/cajas'">Cajas</button>
+
+    <button mat-button [matMenuTriggerFor]="menuSistema" (click)="openMenu('sistema', $event)">
+      Sistema <mat-icon>expand_more</mat-icon>
+    </button>
+    <mat-menu #menuSistema="matMenu" (closed)="closeMenu('sistema')">
+      <button mat-menu-item [routerLink]="'/infracciones'">Infracciones</button>
+      <button mat-menu-item [routerLink]="'/documentos'">Documentos</button>
+      <button mat-menu-item [routerLink]="'/PersonalAdm'">Personal ADM</button>
+      <button mat-menu-item [routerLink]="'/areas'">Áreas</button>
+    </mat-menu>
+
+    <button mat-icon-button (click)="handleSalir()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="map-container">
+    <h2>Ubicación: La Curva de Villa, Chorrillos</h2>
+    <iframe
+      title="La Curva de Villa, Chorrillos"
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.8771136977015!2d-77.004537!3d-12.187431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8e869b25f87%3A0x2f08f8859f3ac48e!2sLa%20Curva%20de%20Villa%2C%20Chorrillos!5e0!3m2!1ses-419!2spe!4v1680987077904!5m2!1ses-419!2spe"
+      width="100%"
+      height="450"
+      style="border: 0; border-radius: 8px"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+  </div>
+</div>

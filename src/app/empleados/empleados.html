@@ -1,0 +1,70 @@
+<div class="empleados-container">
+  <h1>Gestión de Empleados</h1>
+
+  <div class="empleados-buttons">
+    <button class="add-empleado-button" (click)="openForm()">Añadir Empleado</button>
+    <button class="back-button" (click)="goBack()">Regresar</button>
+  </div>
+
+  <div *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</div>
+  <div *ngIf="loading">Cargando...</div>
+
+  <table *ngIf="!loading">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Apellido Paterno</th>
+        <th>Apellido Materno</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Estado Civil</th>
+        <th>Activo</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let empleado of empleados">
+        <td>{{ empleado.id_Empleado }}</td>
+        <td>{{ empleado.nom_Empleado }}</td>
+        <td>{{ empleado.apellidoP }}</td>
+        <td>{{ empleado.apellidoM }}</td>
+        <td>{{ empleado.email }}</td>
+        <td>{{ empleado.telefono }}</td>
+        <td>{{ empleado.estadoCivil }}</td>
+        <td>{{ empleado.activo ? 'Sí' : 'No' }}</td>
+        <td>
+          <button (click)="openForm(empleado)">Editar</button>
+          <button (click)="confirmDelete(empleado.id_Empleado)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Formulario Modal -->
+  <div *ngIf="open" class="modal-form">
+    <h2>{{ editingEmpleado ? 'Editar Empleado' : 'Nuevo Empleado' }}</h2>
+    <form (submit)="saveEmpleado(); $event.preventDefault()">
+      <input type="text" placeholder="Nombre" [(ngModel)]="formData.nom_Empleado" name="nom_Empleado" required />
+      <input type="text" placeholder="Apellido Paterno" [(ngModel)]="formData.apellidoP" name="apellidoP" required />
+      <input type="text" placeholder="Apellido Materno" [(ngModel)]="formData.apellidoM" name="apellidoM" />
+      <input type="email" placeholder="Email" [(ngModel)]="formData.email" name="email" />
+      <input type="text" placeholder="Teléfono" [(ngModel)]="formData.telefono" name="telefono" />
+      <input type="text" placeholder="Dirección" [(ngModel)]="formData.direccion" name="direccion" />
+      <input type="date" [(ngModel)]="formData.fechaIngreso" name="fechaIngreso" />
+      <input type="text" placeholder="Número de Identidad" [(ngModel)]="formData.nroIdentidad" name="nroIdentidad" />
+      <input type="text" placeholder="Estado Civil" [(ngModel)]="formData.estadoCivil" name="estadoCivil" />
+      <label><input type="checkbox" [(ngModel)]="formData.activo" name="activo" /> ¿Activo?</label>
+      <br />
+      <button type="submit">Guardar</button>
+      <button type="button" (click)="open = false">Cancelar</button>
+    </form>
+  </div>
+
+  <!-- Modal Confirmación de Eliminación -->
+  <div *ngIf="openConfirmDelete" class="modal-form">
+    <h2>¿Eliminar empleado?</h2>
+    <button (click)="deleteEmpleado()">Eliminar</button>
+    <button (click)="openConfirmDelete = false">Cancelar</button>
+  </div>
+</div>
