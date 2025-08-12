@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GenerarMultaService {
-  private apiUrl = 'http://localhost:8080/api/email/send';
+  private apiUrl = 'http://localhost:8081/api/email/send';
 
   constructor(private http: HttpClient) {}
 

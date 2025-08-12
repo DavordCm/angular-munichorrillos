@@ -5,7 +5,7 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class HorarioService {
-  private api = 'http://localhost:8080/api/horarios';
+  private api = 'http://localhost:8081/api/horarios';
 
   async getHorarios(): Promise<any[]> {
     try {

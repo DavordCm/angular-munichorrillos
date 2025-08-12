@@ -5,7 +5,7 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class RegistroService {
-  private apiUrl = 'http://localhost:8080/api/usuarios/registrar';
+  private apiUrl = 'http://localhost:8081/api/usuarios/registrar';
 
   async registrarUsuario(usuario: any): Promise<any> {
     try {
