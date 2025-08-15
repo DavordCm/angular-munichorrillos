@@ -1,5 +1,6 @@
+// main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppRootComponent } from './app/app-root.component';
+import { AppComponent } from './app/app'; // Aquí está tu raíz real
 import { provideRouter, Routes } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { authGuard } from './app/auth.guard';
@@ -40,20 +41,31 @@ const routes: Routes = [
       import('./app/login/registro/registro').then(m => m.RegistroUsuario)
   },
   {
+    path: 'infracciones',
+    loadComponent: () =>
+      import('./app/infracciones/infracciones').then(m => m.InfraccionesComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'infractores',
+    loadComponent: () =>
+      import('./app/infractores/infractores').then(m => m.InfractoresComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
   {
-  path: 'fiscalizacion',
-  loadComponent: () =>
-    import('./app/fiscalizacion/fiscalizacion').then(m => m.FiscalizacionComponent),
-  canActivate: [authGuard]
-}
-
+    path: 'fiscalizacion',
+    loadComponent: () =>
+      import('./app/fiscalizacion/fiscalizacion').then(m => m.FiscalizacionComponent),
+    canActivate: [authGuard]
+  }
 ];
 
-bootstrapApplication(AppRootComponent, {
+bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
     provideAnimations(),

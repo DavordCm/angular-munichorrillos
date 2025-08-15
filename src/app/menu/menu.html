@@ -2,37 +2,33 @@
   <mat-toolbar color="primary" class="menu-container">
     <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
 
-    <button mat-button [matMenuTriggerFor]="menuMunicipalidad" (click)="openMenu('municipalidad', $event)">
+    <button mat-button [matMenuTriggerFor]="menuMunicipalidad">
       Municipalidad <mat-icon>expand_more</mat-icon>
     </button>
-    <mat-menu #menuMunicipalidad="matMenu" (closed)="closeMenu('municipalidad')">
+    <mat-menu #menuMunicipalidad="matMenu">
       <button mat-menu-item [routerLink]="'/horario'">Horarios</button>
-      <button mat-menu-item [routerLink]="'/gruas'">Gruas</button>
-      <button mat-menu-item [routerLink]="'/depositos'">Depósitos</button>
       <button mat-menu-item [routerLink]="'/empleados'">Empleados</button>
     </mat-menu>
 
-    <button mat-button [routerLink]="'/deposito'">Depósito ADM</button>
-
-    <!-- Botón simple para Fiscalización -->
     <button mat-button [routerLink]="'/fiscalizacion'">Fiscalización</button>
 
-    <button mat-button [routerLink]="'/cajas'">Cajas</button>
-
-    <button mat-button [matMenuTriggerFor]="menuSistema" (click)="openMenu('sistema', $event)">
+    <button mat-button [matMenuTriggerFor]="menuSistema">
       Sistema <mat-icon>expand_more</mat-icon>
     </button>
-    <mat-menu #menuSistema="matMenu" (closed)="closeMenu('sistema')">
+    <mat-menu #menuSistema="matMenu">
       <button mat-menu-item [routerLink]="'/infracciones'">Infracciones</button>
       <button mat-menu-item [routerLink]="'/documentos'">Documentos</button>
-      <button mat-menu-item [routerLink]="'/PersonalAdm'">Personal ADM</button>
-      <button mat-menu-item [routerLink]="'/areas'">Áreas</button>
+      <button mat-menu-item [routerLink]="'/infractores'">Infractores</button>
     </mat-menu>
 
     <button mat-icon-button (click)="handleSalir()">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
+
+  <div class="contenido-principal">
+    <router-outlet></router-outlet>
+  </div>
 
   <div class="map-container">
     <h2>Ubicación: La Curva de Villa, Chorrillos</h2>
@@ -42,7 +38,7 @@
       width="100%"
       height="450"
       style="border: 0; border-radius: 8px"
-      allowfullscreen=""
+      allowfullscreen
       loading="lazy"
       referrerpolicy="no-referrer-when-downgrade"
     ></iframe>

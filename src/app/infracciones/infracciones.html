@@ -1,0 +1,49 @@
+<div class="infracciones-container">
+  <h2>Listado de Infracciones</h2>
+
+  <form (submit)="agregarInfraccion(
+      nom_Infraccion.value,
+      descripcion.value,
+      resolucion.value,
+      rango.value,
+      monto.value
+    )">
+
+    <input type="text" placeholder="Ordenanza" #nom_Infraccion name="nom_Infraccion">
+    <input type="text" placeholder="Descripción" #descripcion name="descripcion">
+    <input type="text" placeholder="Resolución" #resolucion name="resolucion">
+    <input type="text" placeholder="Rango" #rango name="rango">
+    <input type="number" placeholder="Monto" #monto name="monto">
+
+    <button type="submit">Agregar</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ordenanza</th>
+        <th>Descripción</th>
+        <th>Resolución</th>
+        <th>Rango</th>
+        <th>Monto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let inf of infracciones; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ inf.nom_Infraccion }}</td>
+        <td>{{ inf.descripcion }}</td>
+        <td>{{ inf.resolucion }}</td>
+        <td>{{ inf.rango }}</td>
+        <td>S/ {{ inf.monto }}</td>
+        <td>
+          <button type="button" (click)="eliminarInfraccion(inf.id_Infraccion!)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

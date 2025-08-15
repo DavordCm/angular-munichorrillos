@@ -1,0 +1,36 @@
+<div class="contenedor">
+  <h3>Mantenimiento de Usuarios</h3>
+
+  <div class="botones-superiores">
+    <button class="agregar">Agregar</button>
+    <button class="volver" (click)="volverAMenu()">←</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Dirección</th>
+        <th>Teléfono</th>
+        <th>Email</th>
+        <th>Contraseña</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of usuarios; let i = index">
+        <td>{{ usuario.nombreU }}</td>
+        <td>{{ usuario.apellidoU }}</td>
+        <td>{{ usuario.direccion }}</td>
+        <td>{{ usuario.telefono }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.contrasena ? '******' : 'Sin contraseña' }}</td>
+        <td>
+          <button class="btn-actualizar">Actualizar</button>
+          <button class="btn-eliminar">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

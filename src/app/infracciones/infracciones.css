@@ -1,0 +1,82 @@
+.infracciones-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.infracciones-container h2 {
+  color: #004080;
+  font-size: 22px;
+  margin-bottom: 15px;
+  border-bottom: 3px solid #004080;
+  padding-bottom: 5px;
+}
+
+.infracciones-container form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.infracciones-container input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1 1 150px;
+}
+
+.infracciones-container button[type="submit"] {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.infracciones-container button[type="submit"]:hover {
+  background-color: #ffcc00;
+  color: #004080;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+thead {
+  background-color: #004080;
+  color: white;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+tbody tr:hover {
+  background-color: #ffcc00;
+  color: #004080;
+}
+
+td button {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+td button:hover {
+  background-color: #e74c3c;
+}
