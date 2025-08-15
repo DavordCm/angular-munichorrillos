@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^20.0.4",
+    "@angular/cli": "^20.1.6",
     "@types/crypto-js": "^4.2.2",
     "@types/express": "^5.0.1",
     "@types/jasmine": "^5.1.8",
