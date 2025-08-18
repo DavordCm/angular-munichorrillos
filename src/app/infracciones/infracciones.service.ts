@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Infraccion {
-  uidInfraccion?: string; // ID generado por backend
+  uidInfraccion?: string;
   codInfraccion: string;
   nomInfraccion: string;
   descripcion: string;

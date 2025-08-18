@@ -62,10 +62,8 @@ export class InfractoresComponent implements OnInit {
     this.router.navigate(['/menu']);
   }
 
-  // Crear o actualizar
   guardarInfractor(): void {
     if (this.editarUid) {
-      // Actualizar
       this.infractoresService.actualizarInfractor(this.editarUid, this.nuevoInfractor)
         .then(data => {
           if (data) {
@@ -75,7 +73,7 @@ export class InfractoresComponent implements OnInit {
           }
         });
     } else {
-      // Crear
+
       this.infractoresService.crearInfractor(this.nuevoInfractor)
         .then(data => {
           if (data) {

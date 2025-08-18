@@ -98,7 +98,6 @@ button:hover {
   text-decoration: none;
 }
 
-/* Ajuste para los términos y condiciones */
 .terms-policy {
   display: flex;
   flex-direction: column;
@@ -112,7 +111,6 @@ button:hover {
   margin-bottom: 5px;
 }
 
-/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -165,7 +163,6 @@ button:hover {
   border-radius: 5px;
 }
 
-/* Estilos para el modal de términos y condiciones */
 .terms-modal {
   text-align: left;
   max-height: 400px;

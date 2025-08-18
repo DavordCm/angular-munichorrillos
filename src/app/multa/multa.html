@@ -1,22 +1,18 @@
 <div class="contenedor">
 
-  <!-- Botón retroceder -->
   <button mat-icon-button (click)="volverAlMenu()" class="btn-retroceder">
     <mat-icon>arrow_back</mat-icon>
   </button>
 
-  <!-- Formulario de búsqueda -->
   <div class="busqueda">
     <input type="text" placeholder="Ingrese UID de la multa" [(ngModel)]="busquedaUid" />
     <button (click)="buscarMulta()">Buscar</button>
   </div>
 
-  <!-- Botón recargar -->
   <div class="botones-superiores">
     <button class="agregar" (click)="cargarMultas()">Recargar Multas</button>
   </div>
 
-  <!-- Tabla de multas -->
   <table>
     <thead>
       <tr>

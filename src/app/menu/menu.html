@@ -1,9 +1,7 @@
 <div class="menu-background">
-  <!-- Barra superior -->
   <mat-toolbar color="primary" class="menu-container">
     <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
 
-    <!-- Menú Municipalidad -->
     <button mat-button [matMenuTriggerFor]="menuMunicipalidad">
       Municipalidad <mat-icon>expand_more</mat-icon>
     </button>
@@ -11,10 +9,8 @@
       <button mat-menu-item [routerLink]="'/multa'">Multa</button>
     </mat-menu>
 
-    <!-- Botón Fiscalización -->
     <button mat-button [routerLink]="'/fiscalizacion'">Fiscalización</button>
 
-    <!-- Menú Sistema -->
     <button mat-button [matMenuTriggerFor]="menuSistema">
       Sistema <mat-icon>expand_more</mat-icon>
     </button>
@@ -23,18 +19,15 @@
       <button mat-menu-item [routerLink]="'/infractores'">Infractores</button>
     </mat-menu>
 
-    <!-- Cerrar sesión -->
     <button mat-icon-button (click)="handleSalir()">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
 
-  <!-- Contenido principal dinámico -->
   <div class="contenido-principal">
     <router-outlet></router-outlet>
   </div>
 
-  <!-- Accesos rápidos estilo cards -->
   <div class="accesos-rapidos">
     <div class="card" routerLink="/licencia-funcionamiento">
       <mat-icon>check_circle</mat-icon>

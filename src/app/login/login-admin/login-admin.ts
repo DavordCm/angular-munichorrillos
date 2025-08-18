@@ -14,10 +14,10 @@ import { LoginAdminService } from './login-admin.service';
 export class LoginAdmin {
   user: string = '';
   password: string = '';
-  showPassword: boolean = false;  // ⚠ necesario
+  showPassword: boolean = false;
   isValid: boolean | null = null;
-  modalOpen: boolean = false;     // ⚠ necesario
-  modalContent: string = '';      // ⚠ necesario
+  modalOpen: boolean = false;
+  modalContent: string = '';
 
   constructor(
     private router: Router,

@@ -41,7 +41,6 @@
     </tbody>
   </table>
 
-  <!-- Formulario Modal -->
   <div *ngIf="open" class="modal-form">
     <h2>{{ editingEmpleado ? 'Editar Empleado' : 'Nuevo Empleado' }}</h2>
     <form (submit)="saveEmpleado(); $event.preventDefault()">
@@ -61,7 +60,6 @@
     </form>
   </div>
 
-  <!-- Modal Confirmación de Eliminación -->
   <div *ngIf="openConfirmDelete" class="modal-form">
     <h2>¿Eliminar empleado?</h2>
     <button (click)="deleteEmpleado()">Eliminar</button>

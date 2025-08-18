@@ -1,14 +1,12 @@
 <div class="contenedor">
   <h3>Mantenimiento de Infractores</h3>
 
-  <!-- Buscador y botón de retroceder -->
   <div class="buscador">
     <button class="volver" (click)="volverAMenu()">←</button>
     <input type="text" placeholder="Ingrese UID del infractor" [(ngModel)]="busquedaUid">
     <button class="buscar" (click)="buscarInfractor()">Buscar</button>
   </div>
 
-  <!-- Formulario crear/editar -->
   <div class="botones-superiores">
     <input type="text" placeholder="DNI" [(ngModel)]="nuevoInfractor.dniInfractor">
     <input type="text" placeholder="Nombres" [(ngModel)]="nuevoInfractor.nombres">
@@ -22,7 +20,6 @@
     </button>
   </div>
 
-  <!-- Tabla de infractores -->
   <table>
     <thead>
       <tr>

@@ -6,7 +6,7 @@ export const authGuard: CanActivateFn = () => {
   const loggedIn = !!localStorage.getItem('token');
 
   if (!loggedIn) {
-    router.navigate(['/login']); // redirige si no hay token
+    router.navigate(['/login']);
   }
 
   return loggedIn;

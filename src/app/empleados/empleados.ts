@@ -8,7 +8,7 @@ import { EmpleadoService } from './empleado.service';
   standalone: true,
   templateUrl: './empleados.html',
   styleUrls: ['./empleados.css'],
-  imports: [CommonModule, FormsModule] // ✅ Aquí está la clave
+  imports: [CommonModule, FormsModule]
 })
 export class EmpleadosComponent {
   empleados: any[] = [];
