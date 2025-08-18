@@ -14,15 +14,14 @@ import { LoginAdminService } from './login-admin.service';
 export class LoginAdmin {
   user: string = '';
   password: string = '';
-  showPassword: boolean = false;
+  showPassword: boolean = false;  // ⚠ necesario
   isValid: boolean | null = null;
-  modalOpen: boolean = false;
-  modalContent: string = '';
+  modalOpen: boolean = false;     // ⚠ necesario
+  modalContent: string = '';      // ⚠ necesario
 
   constructor(
-  private router: Router,
-  private loginService: LoginAdminService
-
+    private router: Router,
+    private loginService: LoginAdminService
   ) {
     if (typeof window !== 'undefined' && localStorage.getItem('auth') === 'true') {
       this.router.navigate(['/menu']);
@@ -31,19 +30,13 @@ export class LoginAdmin {
 
   async handleLogin(event: Event) {
     event.preventDefault();
-    try {
-      const userFound = await this.loginService.verificarCredenciales(this.user, this.password);
-
-      if (userFound) {
-        localStorage.setItem('auth', 'true');
-        localStorage.setItem('username', userFound.usuarioAcceso);
-        this.isValid = true;
-        setTimeout(() => this.router.navigate(['/menu']), 1000);
-      } else {
-        this.isValid = false;
-      }
-    } catch (error) {
-      console.error('Error al hacer login:', error);
+    const userFound = await this.loginService.verificarCredenciales(this.user, this.password);
+    if (userFound) {
+      localStorage.setItem('token', 'true'); // esto activa el guard
+      localStorage.setItem('username', userFound.nombre);
+      this.isValid = true;
+      setTimeout(() => this.router.navigate(['/menu']), 1000);
+    } else {
       this.isValid = false;
     }
   }

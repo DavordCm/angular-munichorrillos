@@ -3,8 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface Infraccion {
-  id_Infraccion?: number;
-  nom_Infraccion: string;
+  uidInfraccion?: string; // ID generado por backend
+  codInfraccion: string;
+  nomInfraccion: string;
   descripcion: string;
   resolucion: string;
   rango: string;
@@ -21,11 +22,19 @@ export class InfraccionesService {
     return this.http.get<Infraccion[]>(this.API_URL);
   }
 
+  getInfraccionPorId(uid: string): Observable<Infraccion> {
+    return this.http.get<Infraccion>(`${this.API_URL}/${uid}`);
+  }
+
   addInfraccion(data: Infraccion): Observable<Infraccion> {
     return this.http.post<Infraccion>(this.API_URL, data);
   }
 
-  deleteInfraccion(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${id}`);
+  updateInfraccion(uid: string, data: Infraccion): Observable<Infraccion> {
+    return this.http.put<Infraccion>(`${this.API_URL}/${uid}`, data);
+  }
+
+  deleteInfraccion(uid: string): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/${uid}`);
   }
 }

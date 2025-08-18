@@ -80,3 +80,51 @@ td button {
 td button:hover {
   background-color: #e74c3c;
 }
+
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.buscador .volver {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.buscador .volver:hover {
+  background-color: #003366;
+  transform: scale(1.05);
+}
+
+.buscador input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.buscador .buscar {
+  background-color: #004080;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.buscador .buscar:hover {
+  background-color: #003366;
+  transform: scale(1.05);
+}

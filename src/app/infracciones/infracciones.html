@@ -1,27 +1,29 @@
 <div class="infracciones-container">
   <h2>Listado de Infracciones</h2>
 
-  <form (submit)="agregarInfraccion(
-      nom_Infraccion.value,
-      descripcion.value,
-      resolucion.value,
-      rango.value,
-      monto.value
-    )">
+  <!-- Buscador y botón volver -->
+  <div class="buscador">
+    <button class="volver" (click)="volverAlMenu()">←</button>
+    <input type="text" placeholder="Ingrese UID de la infracción" [(ngModel)]="busquedaUid">
+    <button class="buscar" (click)="buscarInfraccion()">Buscar</button>
+  </div>
 
-    <input type="text" placeholder="Ordenanza" #nom_Infraccion name="nom_Infraccion">
-    <input type="text" placeholder="Descripción" #descripcion name="descripcion">
-    <input type="text" placeholder="Resolución" #resolucion name="resolucion">
-    <input type="text" placeholder="Rango" #rango name="rango">
-    <input type="number" placeholder="Monto" #monto name="monto">
-
-    <button type="submit">Agregar</button>
+  <!-- Formulario Crear/Editar -->
+  <form (submit)="guardarInfraccion(); $event.preventDefault()">
+    <input type="text" placeholder="Código" [(ngModel)]="nuevaInfraccion.codInfraccion" name="cod">
+    <input type="text" placeholder="Ordenanza" [(ngModel)]="nuevaInfraccion.nomInfraccion" name="nom">
+    <input type="text" placeholder="Descripción" [(ngModel)]="nuevaInfraccion.descripcion" name="descripcion">
+    <input type="text" placeholder="Resolución" [(ngModel)]="nuevaInfraccion.resolucion" name="resolucion">
+    <input type="text" placeholder="Rango" [(ngModel)]="nuevaInfraccion.rango" name="rango">
+    <input type="number" placeholder="Monto" [(ngModel)]="nuevaInfraccion.monto" name="monto">
+    <button type="submit">{{ editarId ? 'Actualizar' : 'Agregar' }}</button>
   </form>
 
+  <!-- Tabla de infracciones -->
   <table>
     <thead>
       <tr>
-        <th>#</th>
+        <th>Código</th>
         <th>Ordenanza</th>
         <th>Descripción</th>
         <th>Resolución</th>
@@ -31,17 +33,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let inf of infracciones; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ inf.nom_Infraccion }}</td>
+      <tr *ngFor="let inf of infracciones">
+        <td>{{ inf.codInfraccion }}</td>
+        <td>{{ inf.nomInfraccion }}</td>
         <td>{{ inf.descripcion }}</td>
         <td>{{ inf.resolucion }}</td>
         <td>{{ inf.rango }}</td>
         <td>S/ {{ inf.monto }}</td>
         <td>
-          <button type="button" (click)="eliminarInfraccion(inf.id_Infraccion!)">
-            Eliminar
-          </button>
+          <button (click)="editarInfraccion(inf)">Editar</button>
+          <button (click)="eliminarInfraccion(inf.uidInfraccion!)">Eliminar</button>
         </td>
       </tr>
     </tbody>

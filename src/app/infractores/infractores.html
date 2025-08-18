@@ -1,14 +1,32 @@
 <div class="contenedor">
-  <h3>Mantenimiento de Usuarios</h3>
+  <h3>Mantenimiento de Infractores</h3>
 
-  <div class="botones-superiores">
-    <button class="agregar">Agregar</button>
+  <!-- Buscador y botón de retroceder -->
+  <div class="buscador">
     <button class="volver" (click)="volverAMenu()">←</button>
+    <input type="text" placeholder="Ingrese UID del infractor" [(ngModel)]="busquedaUid">
+    <button class="buscar" (click)="buscarInfractor()">Buscar</button>
   </div>
 
+  <!-- Formulario crear/editar -->
+  <div class="botones-superiores">
+    <input type="text" placeholder="DNI" [(ngModel)]="nuevoInfractor.dniInfractor">
+    <input type="text" placeholder="Nombres" [(ngModel)]="nuevoInfractor.nombres">
+    <input type="text" placeholder="Apellidos" [(ngModel)]="nuevoInfractor.apellidos">
+    <input type="text" placeholder="Dirección" [(ngModel)]="nuevoInfractor.direccion">
+    <input type="text" placeholder="Teléfono" [(ngModel)]="nuevoInfractor.telefono">
+    <input type="email" placeholder="Email" [(ngModel)]="nuevoInfractor.email">
+    <input type="password" placeholder="Password" [(ngModel)]="nuevoInfractor.password">
+    <button class="agregar" (click)="guardarInfractor()">
+      {{ editarUid ? 'Actualizar' : 'Agregar' }}
+    </button>
+  </div>
+
+  <!-- Tabla de infractores -->
   <table>
     <thead>
       <tr>
+        <th>DNI</th>
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Dirección</th>
@@ -19,16 +37,17 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let usuario of usuarios; let i = index">
-        <td>{{ usuario.nombreU }}</td>
-        <td>{{ usuario.apellidoU }}</td>
-        <td>{{ usuario.direccion }}</td>
-        <td>{{ usuario.telefono }}</td>
-        <td>{{ usuario.email }}</td>
-        <td>{{ usuario.contrasena ? '******' : 'Sin contraseña' }}</td>
+      <tr *ngFor="let infractor of infractores">
+        <td>{{ infractor.dniInfractor }}</td>
+        <td>{{ infractor.nombres }}</td>
+        <td>{{ infractor.apellidos }}</td>
+        <td>{{ infractor.direccion }}</td>
+        <td>{{ infractor.telefono }}</td>
+        <td>{{ infractor.email }}</td>
+        <td>{{ infractor.password ? '******' : 'Sin contraseña' }}</td>
         <td>
-          <button class="btn-actualizar">Actualizar</button>
-          <button class="btn-eliminar">Eliminar</button>
+          <button class="btn-actualizar" (click)="editarInfractor(infractor)">Editar</button>
+          <button class="btn-eliminar" (click)="eliminarInfractor(infractor.uidInfractor)">Eliminar</button>
         </td>
       </tr>
     </tbody>

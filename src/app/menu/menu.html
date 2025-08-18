@@ -1,46 +1,68 @@
 <div class="menu-background">
+  <!-- Barra superior -->
   <mat-toolbar color="primary" class="menu-container">
     <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
 
+    <!-- Menú Municipalidad -->
     <button mat-button [matMenuTriggerFor]="menuMunicipalidad">
       Municipalidad <mat-icon>expand_more</mat-icon>
     </button>
     <mat-menu #menuMunicipalidad="matMenu">
-      <button mat-menu-item [routerLink]="'/horario'">Horarios</button>
-      <button mat-menu-item [routerLink]="'/empleados'">Empleados</button>
+      <button mat-menu-item [routerLink]="'/multa'">Multa</button>
     </mat-menu>
 
+    <!-- Botón Fiscalización -->
     <button mat-button [routerLink]="'/fiscalizacion'">Fiscalización</button>
 
+    <!-- Menú Sistema -->
     <button mat-button [matMenuTriggerFor]="menuSistema">
       Sistema <mat-icon>expand_more</mat-icon>
     </button>
     <mat-menu #menuSistema="matMenu">
       <button mat-menu-item [routerLink]="'/infracciones'">Infracciones</button>
-      <button mat-menu-item [routerLink]="'/documentos'">Documentos</button>
       <button mat-menu-item [routerLink]="'/infractores'">Infractores</button>
     </mat-menu>
 
+    <!-- Cerrar sesión -->
     <button mat-icon-button (click)="handleSalir()">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
 
+  <!-- Contenido principal dinámico -->
   <div class="contenido-principal">
     <router-outlet></router-outlet>
   </div>
 
-  <div class="map-container">
-    <h2>Ubicación: La Curva de Villa, Chorrillos</h2>
-    <iframe
-      title="La Curva de Villa, Chorrillos"
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.8771136977015!2d-77.004537!3d-12.187431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8e869b25f87%3A0x2f08f8859f3ac48e!2sLa%20Curva%20de%20Villa%2C%20Chorrillos!5e0!3m2!1ses-419!2spe!4v1680987077904!5m2!1ses-419!2spe"
-      width="100%"
-      height="450"
-      style="border: 0; border-radius: 8px"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-    ></iframe>
+  <!-- Accesos rápidos estilo cards -->
+  <div class="accesos-rapidos">
+    <div class="card" routerLink="/licencia-funcionamiento">
+      <mat-icon>check_circle</mat-icon>
+      <p>Licencia de Funcionamiento</p>
+    </div>
+    <div class="card" routerLink="/licencia-edificacion">
+      <mat-icon>business</mat-icon>
+      <p>Licencia de Edificación</p>
+    </div>
+    <div class="card" routerLink="/tributos">
+      <mat-icon>attach_money</mat-icon>
+      <p>Tributos Municipales</p>
+    </div>
+    <div class="card" routerLink="/mesa-virtual">
+      <mat-icon>computer</mat-icon>
+      <p>Mesa de Partes Virtual</p>
+    </div>
+    <div class="card" routerLink="/libro-reclamaciones">
+      <mat-icon>book</mat-icon>
+      <p>Libro de Reclamaciones</p>
+    </div>
   </div>
+
+<div class="map-container">
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.551622313018!2d-77.041752!3d-12.046373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8c6f7b12345%3A0xabcd123456789!2sMunicipalidad%20de%20Chorrillos!5e0!3m2!1ses!2spe!4v1700000000000"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
 </div>

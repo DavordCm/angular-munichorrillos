@@ -1,9 +1,9 @@
 // main.ts
 import { bootstrapApplication } from '@angular/platform-browser';
-import { AppComponent } from './app/app'; // Aquí está tu raíz real
+import { AppComponent } from './app/app';
 import { provideRouter, Routes } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authGuard } from './app/auth.guard';
+import { authGuard } from './core/auth.guard';
 import { provideHttpClient } from '@angular/common/http';
 
 const routes: Routes = [
@@ -19,11 +19,11 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: 'horario',
-    loadComponent: () =>
-      import('./app/horarios/horarios').then(m => m.HorarioComponent),
-    canActivate: [authGuard]
-  },
+  path: 'multa',
+  loadComponent: () =>
+    import('./app/multa/multa').then(m => m.MultaComponent)
+}
+,
   {
     path: 'empleados',
     loadComponent: () =>
@@ -53,15 +53,15 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full'
-  },
-  {
     path: 'fiscalizacion',
     loadComponent: () =>
       import('./app/fiscalizacion/fiscalizacion').then(m => m.FiscalizacionComponent),
     canActivate: [authGuard]
+  },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
   }
 ];
 

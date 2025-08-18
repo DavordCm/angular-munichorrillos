@@ -1,26 +1,33 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import SHA256 from 'crypto-js/sha256';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginAdminService {
-  private url = 'http://localhost:8081/api/personal';
+  private url = 'http://localhost:8081/api/usuarios/login';
 
   async verificarCredenciales(user: string, password: string): Promise<any | null> {
     try {
-      const response = await axios.get(this.url);
-      const data = response.data;
+      // 🔹 Enviar credenciales al backend
+      const response = await axios.post(this.url, {
+        email: user,
+        contrasena: password // sin ñ
+      });
 
-      const userFound = data.find((item: any) =>
-        item.usuarioAcceso === user &&
-        item.contraseña === SHA256(password).toString()
-      );
-
-      return userFound || null;
-    } catch (error) {
+      // Si el backend responde con un usuario válido
+      if (response.data) {
+        return response.data;
+      }
+      return null;
+    } catch (error: any) {
       console.error('Error al verificar credenciales:', error);
+
+      // Si el backend responde 401 → credenciales incorrectas
+      if (error.response && error.response.status === 401) {
+        return null;
+      }
+
       throw error;
     }
   }
