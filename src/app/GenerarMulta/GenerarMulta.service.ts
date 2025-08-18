@@ -6,15 +6,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class GenerarMultaService {
-  private apiUrl = 'http://localhost:8081/api/email/send';
+
+  private apiUrl = 'http://localhost:8081/api/email';
 
   constructor(private http: HttpClient) {}
 
-  enviarCorreoMulta(payload: {
-    to: string;
-    subject: string;
-    body: string;
-  }): Observable<string> {
-    return this.http.post(this.apiUrl, payload, { responseType: 'text' });
-  }
+  enviarCorreoMulta(payload: any) {
+  return this.http.post('http://localhost:8081/api/email/enviar-multa', payload, {
+    responseType: 'text'
+  });
 }
+}
+
