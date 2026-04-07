@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LoginAdminService } from './login-admin.service';
 
 @Component({
   selector: 'app-login-admin',
@@ -19,21 +18,17 @@ export class LoginAdmin {
   modalOpen: boolean = false;
   modalContent: string = '';
 
-  constructor(
-    private router: Router,
-    private loginService: LoginAdminService
-  ) {
-    if (typeof window !== 'undefined' && localStorage.getItem('auth') === 'true') {
+  constructor(private router: Router) {
+    if (typeof window !== 'undefined' && localStorage.getItem('token') === 'true') {
       this.router.navigate(['/menu']);
     }
   }
 
-  async handleLogin(event: Event) {
+  handleLogin(event: Event) {
     event.preventDefault();
-    const userFound = await this.loginService.verificarCredenciales(this.user, this.password);
-    if (userFound) {
-      localStorage.setItem('token', 'true'); // esto activa el guard
-      localStorage.setItem('username', userFound.nombre);
+    if (this.user === 'admin' && this.password === '1234') {
+      localStorage.setItem('token', 'true');
+      localStorage.setItem('username', 'Administrador');
       this.isValid = true;
       setTimeout(() => this.router.navigate(['/menu']), 1000);
     } else {

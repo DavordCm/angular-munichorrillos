@@ -1,47 +1,64 @@
-<div class="infracciones-container">
-  <h2>Listado de Infracciones</h2>
+<div class="page-container">
+  <div class="page-card">
+    <div class="page-header">
+      <h1 class="page-title">Mantenimiento de Ordenanzas Municipales</h1>
+      <button class="btn-back" (click)="volverAlMenu()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
 
-  <div class="buscador">
-    <button class="volver" (click)="volverAlMenu()">←</button>
-    <input type="text" placeholder="Ingrese UID de la infracción" [(ngModel)]="busquedaUid">
-    <button class="buscar" (click)="buscarInfraccion()">Buscar</button>
+    <button class="btn-add" (click)="toggleForm()">
+      <span class="material-icons">add</span>
+      AGREGAR
+    </button>
+
+    <!-- Search -->
+    <div class="search-bar" style="margin-top:16px;">
+      <input type="text" placeholder="Buscar por UID de infraccion..." [(ngModel)]="busquedaUid">
+      <button class="btn-search" (click)="buscarInfraccion()">Buscar</button>
+    </div>
+
+    <!-- Inline form -->
+    <div *ngIf="showForm" class="form-inline" style="margin-top:16px;">
+      <input type="text" placeholder="Codigo" [(ngModel)]="nuevaInfraccion.codInfraccion">
+      <input type="text" placeholder="Ordenanza" [(ngModel)]="nuevaInfraccion.nomInfraccion">
+      <input type="text" placeholder="Descripcion" [(ngModel)]="nuevaInfraccion.descripcion">
+      <input type="text" placeholder="Resolucion" [(ngModel)]="nuevaInfraccion.resolucion">
+      <input type="text" placeholder="Rango" [(ngModel)]="nuevaInfraccion.rango">
+      <input type="number" placeholder="Monto" [(ngModel)]="nuevaInfraccion.monto">
+      <button class="btn-add" (click)="guardarInfraccion()">
+        {{ editarId ? 'ACTUALIZAR' : 'GUARDAR' }}
+      </button>
+    </div>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ordenanza</th>
+          <th>Descripcion</th>
+          <th>Resolucion</th>
+          <th>Rango</th>
+          <th>Monto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let inf of infracciones; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ inf.nomInfraccion }}</td>
+          <td>{{ inf.descripcion }}</td>
+          <td>{{ inf.resolucion }}</td>
+          <td>{{ inf.rango }}</td>
+          <td>S/ {{ inf.monto }}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="btn-action update" (click)="editarInfraccion(inf)">ACTUALIZAR</button>
+              <button class="btn-action remove" (click)="eliminarInfraccion(inf.id)">ELIMINAR</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <form (submit)="guardarInfraccion(); $event.preventDefault()">
-    <input type="text" placeholder="Código" [(ngModel)]="nuevaInfraccion.codInfraccion" name="cod">
-    <input type="text" placeholder="Ordenanza" [(ngModel)]="nuevaInfraccion.nomInfraccion" name="nom">
-    <input type="text" placeholder="Descripción" [(ngModel)]="nuevaInfraccion.descripcion" name="descripcion">
-    <input type="text" placeholder="Resolución" [(ngModel)]="nuevaInfraccion.resolucion" name="resolucion">
-    <input type="text" placeholder="Rango" [(ngModel)]="nuevaInfraccion.rango" name="rango">
-    <input type="number" placeholder="Monto" [(ngModel)]="nuevaInfraccion.monto" name="monto">
-    <button type="submit">{{ editarId ? 'Actualizar' : 'Agregar' }}</button>
-  </form>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Código</th>
-        <th>Ordenanza</th>
-        <th>Descripción</th>
-        <th>Resolución</th>
-        <th>Rango</th>
-        <th>Monto</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let inf of infracciones">
-        <td>{{ inf.codInfraccion }}</td>
-        <td>{{ inf.nomInfraccion }}</td>
-        <td>{{ inf.descripcion }}</td>
-        <td>{{ inf.resolucion }}</td>
-        <td>{{ inf.rango }}</td>
-        <td>S/ {{ inf.monto }}</td>
-        <td>
-          <button (click)="editarInfraccion(inf)">Editar</button>
-          <button (click)="eliminarInfraccion(inf.uidInfraccion!)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { InfraccionesService, Infraccion } from './infracciones.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
+interface Infraccion {
+  id: number;
+  codInfraccion: string;
+  nomInfraccion: string;
+  descripcion: string;
+  resolucion: string;
+  rango: string;
+  monto: number;
+}
 
 @Component({
   selector: 'app-infracciones',
@@ -14,32 +23,40 @@ import { Router } from '@angular/router';
 export class InfraccionesComponent implements OnInit {
   infracciones: Infraccion[] = [];
   busquedaUid: string = '';
+  showForm = false;
 
-  // Formulario Crear/Editar
-  nuevaInfraccion: Infraccion = {
-    codInfraccion: '',
-    nomInfraccion: '',
-    descripcion: '',
-    resolucion: '',
-    rango: '',
-    monto: 0
-  };
-  editarId: string | null = null;
+  nuevaInfraccion: any = { codInfraccion: '', nomInfraccion: '', descripcion: '', resolucion: '', rango: '', monto: 0 };
+  editarId: number | null = null;
 
-  constructor(
-    private infraccionesService: InfraccionesService,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.cargarInfracciones();
   }
 
+  private getStorage(): Infraccion[] {
+    return JSON.parse(localStorage.getItem('infracciones') || '[]');
+  }
+
+  private saveStorage(data: Infraccion[]) {
+    localStorage.setItem('infracciones', JSON.stringify(data));
+  }
+
   cargarInfracciones() {
-    this.infraccionesService.getInfracciones().subscribe({
-      next: (data) => this.infracciones = data,
-      error: (err) => console.error('Error al cargar infracciones', err)
-    });
+    this.infracciones = this.getStorage();
+    if (this.infracciones.length === 0) {
+      this.infracciones = [
+        { id: 1, codInfraccion: 'INF-001', nomInfraccion: 'Ord. 033', descripcion: 'Estacionamiento indebido', resolucion: 'Res. 001', rango: 'Leve', monto: 150 },
+        { id: 2, codInfraccion: 'INF-002', nomInfraccion: 'Ord. 045', descripcion: 'Exceso de velocidad', resolucion: 'Res. 002', rango: 'Grave', monto: 500 },
+        { id: 3, codInfraccion: 'INF-003', nomInfraccion: 'Ord. 078', descripcion: 'Comercio ambulatorio', resolucion: 'Res. 003', rango: 'Moderada', monto: 300 }
+      ];
+      this.saveStorage(this.infracciones);
+    }
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+    if (!this.showForm) this.limpiarFormulario();
   }
 
   buscarInfraccion() {
@@ -47,62 +64,43 @@ export class InfraccionesComponent implements OnInit {
       this.cargarInfracciones();
       return;
     }
-    this.infraccionesService.getInfraccionPorId(this.busquedaUid).subscribe({
-      next: (data) => this.infracciones = data ? [data] : [],
-      error: () => {
-        alert('No se encontró la infracción con ese ID');
-        this.cargarInfracciones();
-      }
-    });
+    const all = this.getStorage();
+    const found = all.filter(i => i.id.toString() === this.busquedaUid || i.codInfraccion.toLowerCase().includes(this.busquedaUid.toLowerCase()));
+    this.infracciones = found;
   }
 
   guardarInfraccion() {
+    const all = this.getStorage();
     if (this.editarId) {
-      // Actualizar
-      this.infraccionesService.updateInfraccion(this.editarId, this.nuevaInfraccion).subscribe({
-        next: () => {
-          alert('Infracción actualizada');
-          this.cargarInfracciones();
-          this.limpiarFormulario();
-        },
-        error: (err) => console.error('Error al actualizar infracción', err)
-      });
+      const idx = all.findIndex(i => i.id === this.editarId);
+      if (idx >= 0) all[idx] = { ...all[idx], ...this.nuevaInfraccion };
     } else {
-      // Crear
-      this.infraccionesService.addInfraccion(this.nuevaInfraccion).subscribe({
-        next: () => {
-          alert('Infracción agregada');
-          this.cargarInfracciones();
-          this.limpiarFormulario();
-        },
-        error: (err) => console.error('Error al agregar infracción', err)
-      });
+      const newId = all.length ? Math.max(...all.map(i => i.id)) + 1 : 1;
+      all.push({ ...this.nuevaInfraccion, id: newId });
     }
+    this.saveStorage(all);
+    this.cargarInfracciones();
+    this.limpiarFormulario();
+    this.showForm = false;
   }
 
   editarInfraccion(inf: Infraccion) {
-    this.editarId = inf.uidInfraccion!;
+    this.editarId = inf.id;
     this.nuevaInfraccion = { ...inf };
+    this.showForm = true;
   }
 
-  eliminarInfraccion(uid: string) {
-    if (confirm('¿Seguro que deseas eliminar esta infracción?')) {
-      this.infraccionesService.deleteInfraccion(uid).subscribe({
-        next: () => this.cargarInfracciones(),
-        error: (err) => console.error('Error al eliminar infracción', err)
-      });
+  eliminarInfraccion(id: number) {
+    if (confirm('Seguro que deseas eliminar esta infraccion?')) {
+      let all = this.getStorage();
+      all = all.filter(i => i.id !== id);
+      this.saveStorage(all);
+      this.cargarInfracciones();
     }
   }
 
   limpiarFormulario() {
-    this.nuevaInfraccion = {
-      codInfraccion: '',
-      nomInfraccion: '',
-      descripcion: '',
-      resolucion: '',
-      rango: '',
-      monto: 0
-    };
+    this.nuevaInfraccion = { codInfraccion: '', nomInfraccion: '', descripcion: '', resolucion: '', rango: '', monto: 0 };
     this.editarId = null;
   }
 

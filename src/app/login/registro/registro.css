@@ -1,32 +1,342 @@
-.register-container {
-    width: 300px;
-    margin: 0 auto;
-    text-align: center;
+/* ========================================
+   REGISTRO - PROFESSIONAL DESIGN
+   ======================================== */
+
+.register-page {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-light);
+}
+
+/* ---- LEFT BRANDING ---- */
+.register-branding {
+  flex: 0.8;
+  background: var(--gradient-primary);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+.branding-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(212, 168, 67, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(26, 58, 107, 0.5) 0%, transparent 50%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M 25 0 L 0 0 0 25" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+}
+
+.branding-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 40px;
+}
+
+.branding-logo {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  filter: brightness(1.1) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+}
+
+.branding-content h1 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text-white);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.branding-content h1 span {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent-gold);
+  display: block;
+}
+
+.branding-content > p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 36px;
+}
+
+.branding-features {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-light);
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  width: 230px;
+}
+
+.feature .material-icons {
+  color: var(--accent-gold);
+  font-size: 22px;
+}
+
+/* ---- RIGHT FORM SIDE ---- */
+.register-form-side {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: var(--bg-light);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-white);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.register-logo {
+  width: 140px;
+  height: auto;
+  margin-bottom: 14px;
+}
+
+.register-header h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-navy);
+  margin-bottom: 6px;
+}
+
+.register-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ---- FORM GROUPS ---- */
+.form-row {
+  display: flex;
+  gap: 16px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-navy);
+  margin-bottom: 6px;
+}
+
+.form-group label .material-icons {
+  font-size: 18px;
+  color: var(--primary-blue);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  background: #f8fafc;
+  transition: var(--transition);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-blue);
+  background: var(--bg-white);
+  box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #aab;
+}
+
+/* ---- ALERTS ---- */
+.alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.alert-success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.alert-success .material-icons {
+  color: #10b981;
+}
+
+.alert-error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+.alert-error .material-icons {
+  color: #ef4444;
+}
+
+/* ---- BUTTONS ---- */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--gradient-primary);
+  color: var(--text-white);
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--transition);
+  margin-bottom: 16px;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 32, 68, 0.3);
+}
+
+.btn-primary .material-icons {
+  font-size: 20px;
+}
+
+/* ---- FORM FOOTER ---- */
+.form-footer {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-muted);
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.link-text {
+  color: var(--primary-blue);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.link-text:hover {
+  color: var(--accent-gold);
+  text-decoration: underline;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .register-page {
+    flex-direction: column;
   }
 
-  .register-container input {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+  .register-branding {
+    min-height: 260px;
+    flex: none;
   }
 
-  .error-message {
-    color: red;
-    font-size: 14px;
+  .branding-content h1 {
+    font-size: 20px;
   }
 
-  .success-message {
-    color: green;
-    font-size: 14px;
+  .branding-content h1 span {
+    font-size: 28px;
   }
 
-  .login-link {
-    margin-top: 10px;
-    cursor: pointer;
-    color: blue;
+  .branding-features {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
-  .login-link span {
-    font-weight: bold;
+  .feature {
+    width: auto;
+    padding: 10px 16px;
+    font-size: 12px;
   }
+
+  .register-form-side {
+    padding: 24px;
+  }
+
+  .register-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 600px) {
+  .register-branding {
+    min-height: 200px;
+  }
+
+  .branding-logo {
+    width: 70px;
+  }
+
+  .branding-features {
+    display: none;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .register-card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+}

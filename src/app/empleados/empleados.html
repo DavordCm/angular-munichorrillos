@@ -1,68 +1,223 @@
-<div class="empleados-container">
-  <h1>Gestión de Empleados</h1>
-
-  <div class="empleados-buttons">
-    <button class="add-empleado-button" (click)="openForm()">Añadir Empleado</button>
-    <button class="back-button" (click)="goBack()">Regresar</button>
+<div class="page-container">
+  <!-- Stats -->
+  <div class="emp-stats">
+    <div class="emp-stat-card">
+      <div class="emp-stat-icon blue">
+        <span class="material-icons">people</span>
+      </div>
+      <div class="emp-stat-data">
+        <span class="emp-stat-value">{{ empleados.length }}</span>
+        <span class="emp-stat-label">Total Empleados</span>
+      </div>
+    </div>
+    <div class="emp-stat-card">
+      <div class="emp-stat-icon green">
+        <span class="material-icons">check_circle</span>
+      </div>
+      <div class="emp-stat-data">
+        <span class="emp-stat-value">{{ getActivos() }}</span>
+        <span class="emp-stat-label">Activos</span>
+      </div>
+    </div>
+    <div class="emp-stat-card">
+      <div class="emp-stat-icon red">
+        <span class="material-icons">cancel</span>
+      </div>
+      <div class="emp-stat-data">
+        <span class="emp-stat-value">{{ getInactivos() }}</span>
+        <span class="emp-stat-label">Inactivos</span>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</div>
-  <div *ngIf="loading">Cargando...</div>
+  <div class="page-card emp-card-animate">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Mantenimiento de Personal Administrativo</h1>
+        <p class="page-subtitle">Gestion y administracion del personal municipal</p>
+      </div>
+      <button class="btn-back" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
 
-  <table *ngIf="!loading">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Apellido Paterno</th>
-        <th>Apellido Materno</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Estado Civil</th>
-        <th>Activo</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let empleado of empleados">
-        <td>{{ empleado.id_Empleado }}</td>
-        <td>{{ empleado.nom_Empleado }}</td>
-        <td>{{ empleado.apellidoP }}</td>
-        <td>{{ empleado.apellidoM }}</td>
-        <td>{{ empleado.email }}</td>
-        <td>{{ empleado.telefono }}</td>
-        <td>{{ empleado.estadoCivil }}</td>
-        <td>{{ empleado.activo ? 'Sí' : 'No' }}</td>
-        <td>
-          <button (click)="openForm(empleado)">Editar</button>
-          <button (click)="confirmDelete(empleado.id_Empleado)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="emp-toolbar">
+      <button class="btn-add" (click)="openForm()">
+        <span class="material-icons">person_add</span>
+        AGREGAR PERSONAL
+      </button>
+      <div class="search-bar" style="flex:1;margin:0;">
+        <input type="text" placeholder="Buscar por nombre, apellido o email..." [(ngModel)]="busqueda" (input)="filtrarEmpleados()" />
+        <button class="btn-search" (click)="filtrarEmpleados()">
+          <span class="material-icons">search</span>
+        </button>
+      </div>
+    </div>
 
-  <div *ngIf="open" class="modal-form">
-    <h2>{{ editingEmpleado ? 'Editar Empleado' : 'Nuevo Empleado' }}</h2>
-    <form (submit)="saveEmpleado(); $event.preventDefault()">
-      <input type="text" placeholder="Nombre" [(ngModel)]="formData.nom_Empleado" name="nom_Empleado" required />
-      <input type="text" placeholder="Apellido Paterno" [(ngModel)]="formData.apellidoP" name="apellidoP" required />
-      <input type="text" placeholder="Apellido Materno" [(ngModel)]="formData.apellidoM" name="apellidoM" />
-      <input type="email" placeholder="Email" [(ngModel)]="formData.email" name="email" />
-      <input type="text" placeholder="Teléfono" [(ngModel)]="formData.telefono" name="telefono" />
-      <input type="text" placeholder="Dirección" [(ngModel)]="formData.direccion" name="direccion" />
-      <input type="date" [(ngModel)]="formData.fechaIngreso" name="fechaIngreso" />
-      <input type="text" placeholder="Número de Identidad" [(ngModel)]="formData.nroIdentidad" name="nroIdentidad" />
-      <input type="text" placeholder="Estado Civil" [(ngModel)]="formData.estadoCivil" name="estadoCivil" />
-      <label><input type="checkbox" [(ngModel)]="formData.activo" name="activo" /> ¿Activo?</label>
-      <br />
-      <button type="submit">Guardar</button>
-      <button type="button" (click)="open = false">Cancelar</button>
-    </form>
+    <div *ngIf="errorMessage" class="error-banner">
+      <span class="material-icons">error</span>
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      Cargando empleados...
+    </div>
+
+    <div class="table-wrapper" *ngIf="!loading">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Empleado</th>
+            <th>DNI</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Fecha Ingreso</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empleado of empleadosFiltrados; let i = index" class="row-animate" [style.animation-delay]="i * 0.05 + 's'">
+            <td class="td-num">{{ i + 1 }}</td>
+            <td>
+              <div class="emp-name-cell">
+                <div class="emp-avatar" [class.active]="empleado.activo" [class.inactive]="!empleado.activo">
+                  {{ empleado.nom_Empleado?.charAt(0) }}{{ empleado.apellidoP?.charAt(0) }}
+                </div>
+                <div>
+                  <strong>{{ empleado.nom_Empleado }} {{ empleado.apellidoP }}</strong>
+                  <span class="emp-sub">{{ empleado.apellidoM }}</span>
+                </div>
+              </div>
+            </td>
+            <td>{{ empleado.nroIdentidad || '-' }}</td>
+            <td>
+              <span class="emp-email">{{ empleado.email || '-' }}</span>
+            </td>
+            <td>{{ empleado.telefono || '-' }}</td>
+            <td>{{ empleado.fechaIngreso || '-' }}</td>
+            <td>
+              <span class="status-badge" [class.active]="empleado.activo" [class.inactive]="!empleado.activo">
+                <span class="status-dot"></span>
+                {{ empleado.activo ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td>
+              <div class="actions-cell">
+                <button class="btn-icon edit" title="Editar" (click)="openForm(empleado)">
+                  <span class="material-icons">edit</span>
+                </button>
+                <button class="btn-icon delete" title="Eliminar" (click)="confirmDelete(empleado.id)">
+                  <span class="material-icons">delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="empleadosFiltrados.length === 0" class="empty-state">
+        <span class="material-icons">person_off</span>
+        <p>No se encontraron empleados</p>
+      </div>
+    </div>
+
+    <div class="table-footer" *ngIf="!loading">
+      <span>Mostrando {{ empleadosFiltrados.length }} de {{ empleados.length }} empleados</span>
+    </div>
   </div>
 
-  <div *ngIf="openConfirmDelete" class="modal-form">
-    <h2>¿Eliminar empleado?</h2>
-    <button (click)="deleteEmpleado()">Eliminar</button>
-    <button (click)="openConfirmDelete = false">Cancelar</button>
+  <!-- Modal Agregar/Editar -->
+  <div *ngIf="open" class="modal-overlay" (click)="open = false">
+    <div class="modal-card modal-animate" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>{{ editingEmpleado ? 'Editar Empleado' : 'Nuevo Empleado' }}</h2>
+        <button class="modal-close" (click)="open = false">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      <form (submit)="saveEmpleado(); $event.preventDefault()">
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label>Nombre</label>
+            <input type="text" placeholder="Nombre" [(ngModel)]="formData.nom_Empleado" name="nom_Empleado" required />
+          </div>
+          <div class="form-field">
+            <label>Apellido Paterno</label>
+            <input type="text" placeholder="Apellido paterno" [(ngModel)]="formData.apellidoP" name="apellidoP" required />
+          </div>
+          <div class="form-field">
+            <label>Apellido Materno</label>
+            <input type="text" placeholder="Apellido materno" [(ngModel)]="formData.apellidoM" name="apellidoM" />
+          </div>
+          <div class="form-field">
+            <label>DNI</label>
+            <input type="text" placeholder="12345678" [(ngModel)]="formData.nroIdentidad" name="nroIdentidad" />
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" placeholder="correo@muni.gob.pe" [(ngModel)]="formData.email" name="email" />
+          </div>
+          <div class="form-field">
+            <label>Telefono</label>
+            <input type="text" placeholder="999 999 999" [(ngModel)]="formData.telefono" name="telefono" />
+          </div>
+          <div class="form-field full">
+            <label>Direccion</label>
+            <input type="text" placeholder="Av. Principal 123" [(ngModel)]="formData.direccion" name="direccion" />
+          </div>
+          <div class="form-field">
+            <label>Fecha de Ingreso</label>
+            <input type="date" [(ngModel)]="formData.fechaIngreso" name="fechaIngreso" />
+          </div>
+          <div class="form-field">
+            <label>Estado Civil</label>
+            <select [(ngModel)]="formData.estadoCivil" name="estadoCivil">
+              <option value="">Seleccione...</option>
+              <option value="Soltero">Soltero(a)</option>
+              <option value="Casado">Casado(a)</option>
+              <option value="Divorciado">Divorciado(a)</option>
+              <option value="Viudo">Viudo(a)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field" style="margin-top:8px;">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="formData.activo" name="activo" />
+            <span class="checkmark"></span>
+            Empleado activo
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-save">
+            <span class="material-icons">save</span>
+            {{ editingEmpleado ? 'Actualizar' : 'Guardar' }}
+          </button>
+          <button type="button" class="btn-cancel" (click)="open = false">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Confirmar Eliminar -->
+  <div *ngIf="openConfirmDelete" class="modal-overlay" (click)="openConfirmDelete = false">
+    <div class="modal-card modal-animate" (click)="$event.stopPropagation()">
+      <div class="delete-confirm">
+        <div class="delete-icon">
+          <span class="material-icons">warning</span>
+        </div>
+        <h2>Eliminar empleado?</h2>
+        <p>Esta accion eliminara permanentemente al empleado del sistema.</p>
+        <div class="modal-actions">
+          <button class="btn-danger" (click)="deleteEmpleado()">
+            <span class="material-icons">delete_forever</span>
+            Eliminar
+          </button>
+          <button class="btn-cancel" (click)="openConfirmDelete = false">Cancelar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,21 +1,114 @@
-<form (submit)="handleSubmit($event)" class="register-container">
-  <h2>Registro de Usuario</h2>
+<div class="register-page">
+  <!-- LEFT SIDE - BRANDING -->
+  <div class="register-branding">
+    <div class="branding-overlay"></div>
+    <div class="branding-content">
+      <img src="/logoMuni.png" alt="Escudo" class="branding-logo" />
+      <h1>Municipalidad de<br /><span>Chorrillos</span></h1>
+      <p>Crea tu cuenta ciudadana</p>
+      <div class="branding-features">
+        <div class="feature">
+          <span class="material-icons">how_to_reg</span>
+          <span>Registro rapido</span>
+        </div>
+        <div class="feature">
+          <span class="material-icons">security</span>
+          <span>Datos protegidos</span>
+        </div>
+        <div class="feature">
+          <span class="material-icons">touch_app</span>
+          <span>Acceso inmediato</span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <input type="text" placeholder="Nombre" name="nombreU" [(ngModel)]="formData.nombreU" required />
-  <input type="text" placeholder="Apellido" name="apellidoU" [(ngModel)]="formData.apellidoU" required />
-  <input type="text" placeholder="Dirección" name="direccion" [(ngModel)]="formData.direccion" required />
-  <input type="text" placeholder="Teléfono" name="telefono" [(ngModel)]="formData.telefono" required />
-  <input type="email" placeholder="Correo Electrónico" name="email" [(ngModel)]="formData.email" required />
+  <!-- RIGHT SIDE - FORM -->
+  <div class="register-form-side">
+    <form (submit)="handleSubmit($event)" class="register-card">
+      <div class="register-header">
+        <img src="/MuniChorrillos.png" class="register-logo" alt="Logo MuniChorrillos" />
+        <h2>Crear Cuenta</h2>
+        <p class="register-desc">Completa tus datos para registrarte en el sistema</p>
+      </div>
 
-  <input type="password" placeholder="Contraseña" name="contrasena" [(ngModel)]="formData.contrasena" required />
-  <input type="password" placeholder="Confirmar Contraseña" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label>
+            <span class="material-icons">person</span>
+            Nombre
+          </label>
+          <input type="text" placeholder="Tu nombre" name="nombreU" [(ngModel)]="formData.nombre" required />
+        </div>
+        <div class="form-group">
+          <label>
+            <span class="material-icons">person_outline</span>
+            Apellido
+          </label>
+          <input type="text" placeholder="Tu apellido" name="apellidoU" [(ngModel)]="formData.apellido" required />
+        </div>
+      </div>
 
-  <div *ngIf="error" class="error-message">{{ error }}</div>
-  <div *ngIf="success" class="success-message">✅ Registro exitoso. Redirigiendo...</div>
+      <div class="form-group">
+        <label>
+          <span class="material-icons">home</span>
+          Direccion
+        </label>
+        <input type="text" placeholder="Av. Principal 123" name="direccion" [(ngModel)]="formData.direccion" required />
+      </div>
 
-  <button type="submit">Registrarse</button>
+      <div class="form-row">
+        <div class="form-group">
+          <label>
+            <span class="material-icons">phone</span>
+            Telefono
+          </label>
+          <input type="text" placeholder="999 999 999" name="telefono" [(ngModel)]="formData.telefono" required />
+        </div>
+        <div class="form-group">
+          <label>
+            <span class="material-icons">email</span>
+            Email
+          </label>
+          <input type="email" placeholder="correo@ejemplo.com" name="email" [(ngModel)]="formData.email" required />
+        </div>
+      </div>
 
-  <p class="login-link" (click)="router.navigate(['/login_user'])">
-    ¿Ya tienes cuenta? <span>Inicia sesión aquí</span>
-  </p>
-</form>
+      <div class="form-row">
+        <div class="form-group">
+          <label>
+            <span class="material-icons">lock</span>
+            Contrasena
+          </label>
+          <input type="password" placeholder="Min. 6 caracteres" name="contrasena" [(ngModel)]="formData.contrasena" required />
+        </div>
+        <div class="form-group">
+          <label>
+            <span class="material-icons">lock_outline</span>
+            Confirmar
+          </label>
+          <input type="password" placeholder="Repite la contrasena" name="confirmPassword" [(ngModel)]="formData.confirmPassword" required />
+        </div>
+      </div>
+
+      <div *ngIf="error" class="alert alert-error">
+        <span class="material-icons">error</span>
+        {{ error }}
+      </div>
+      <div *ngIf="success" class="alert alert-success">
+        <span class="material-icons">check_circle</span>
+        Registro exitoso. Redirigiendo...
+      </div>
+
+      <button type="submit" class="btn-primary">
+        <span class="material-icons">how_to_reg</span>
+        Registrarse
+      </button>
+
+      <div class="form-footer">
+        <span>Ya tienes cuenta?</span>
+        <span class="link-text" (click)="router.navigate(['/login_user'])">Inicia sesion aqui</span>
+      </div>
+    </form>
+  </div>
+</div>

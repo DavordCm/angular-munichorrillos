@@ -1,0 +1,113 @@
+<div class="page-container">
+  <div class="page-card">
+    <div class="page-header">
+      <h1 class="page-title">Gestion de Usuarios</h1>
+      <button class="btn-back" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
+
+    <div class="toolbar">
+      <button class="btn-add" (click)="openForm()">
+        <span class="material-icons">person_add</span>
+        AGREGAR USUARIO
+      </button>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar por ID de usuario..." [(ngModel)]="busquedaId" />
+      <button class="btn-search" (click)="buscarUsuario()">Buscar</button>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-banner">
+      <span class="material-icons">error</span>
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="loading" class="loading-spinner">Cargando usuarios...</div>
+
+    <table class="data-table" *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Telefono</th>
+          <th>Direccion</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuarios">
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.apellido }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.telefono }}</td>
+          <td>{{ usuario.direccion }}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="btn-icon edit" (click)="openForm(usuario)">
+                <span class="material-icons">edit</span>
+              </button>
+              <button class="btn-icon delete" (click)="confirmDelete(usuario.id!)">
+                <span class="material-icons">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Agregar/Editar -->
+  <div *ngIf="open" class="modal-overlay" (click)="open = false">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h2>{{ editingUsuario ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+      <form (submit)="saveUsuario(); $event.preventDefault()">
+        <div class="form-field">
+          <label>Nombre</label>
+          <input type="text" placeholder="Nombre" [(ngModel)]="formData.nombre" name="nombre" required />
+        </div>
+        <div class="form-field">
+          <label>Apellido</label>
+          <input type="text" placeholder="Apellido" [(ngModel)]="formData.apellido" name="apellido" required />
+        </div>
+        <div class="form-field">
+          <label>Email</label>
+          <input type="email" placeholder="correo@ejemplo.com" [(ngModel)]="formData.email" name="email" required />
+        </div>
+        <div class="form-field">
+          <label>Telefono</label>
+          <input type="text" placeholder="999 999 999" [(ngModel)]="formData.telefono" name="telefono" />
+        </div>
+        <div class="form-field">
+          <label>Direccion</label>
+          <input type="text" placeholder="Av. Principal 123" [(ngModel)]="formData.direccion" name="direccion" />
+        </div>
+        <div class="form-field">
+          <label>Contrasena</label>
+          <input type="password" [placeholder]="editingUsuario ? 'Dejar vacio para no cambiar' : 'Min. 6 caracteres'" [(ngModel)]="formData.contrasena" name="contrasena" />
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-save">Guardar</button>
+          <button type="button" class="btn-cancel" (click)="open = false">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Confirmar Eliminar -->
+  <div *ngIf="openConfirmDelete" class="modal-overlay" (click)="openConfirmDelete = false">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+      <h2>Eliminar usuario?</h2>
+      <p style="color:#666;margin-bottom:24px;">Esta accion no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button class="btn-danger" (click)="deleteUsuario()">Eliminar</button>
+        <button class="btn-cancel" (click)="openConfirmDelete = false">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>

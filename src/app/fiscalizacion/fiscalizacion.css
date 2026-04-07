@@ -1,44 +1,102 @@
-.formulario-fiscalizacion {
-  width: 90%;
-  margin: 10px auto;
-  padding: 15px;
-  background-color: #f8f9fa;
-  border-radius: 5px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+/* Fiscalizacion styles */
+
+.form-section {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-.form-group {
-  margin-bottom: 8px;
+.form-section:last-of-type {
+  border-bottom: none;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 3px;
+.form-section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--primary-navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.form-section-title .material-icons {
+  font-size: 22px;
+  color: var(--primary-blue);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
   font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-navy);
+  margin-bottom: 6px;
 }
 
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.form-field input,
+.form-field select,
+.form-field textarea {
+  padding: 12px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: var(--transition);
+  background: #f8fafc;
   box-sizing: border-box;
-  font-size: 13px;
+  width: 100%;
 }
 
-textarea {
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--primary-blue);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(26, 58, 107, 0.1);
+}
+
+.form-field textarea {
   resize: vertical;
 }
 
-button[type="button"] {
-  background-color: #007bff;
+.btn-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  background: var(--gradient-primary);
   color: white;
-  padding: 7px 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
   cursor: pointer;
-  font-size: 13px;
+  transition: var(--transition);
+  margin-top: 8px;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(15, 32, 68, 0.3);
+}
+
+.btn-submit .material-icons {
+  font-size: 20px;
 }

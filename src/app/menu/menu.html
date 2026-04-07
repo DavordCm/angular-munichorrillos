@@ -1,61 +1,205 @@
-<div class="menu-background">
-  <mat-toolbar color="primary" class="menu-container">
-    <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
+<div class="app-layout" (click)="closeDropdowns()">
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar-content">
+      <span>Portal Institucional - Municipalidad de Chorrillos</span>
+      <div class="top-bar-right">
+        <span class="material-icons">phone</span>
+        <span>(01) 467-2080</span>
+        <span class="separator">|</span>
+        <span class="material-icons">email</span>
+        <span>contacto&#64;munichorrillos.gob.pe</span>
+      </div>
+    </div>
+  </div>
 
-    <button mat-button [matMenuTriggerFor]="menuMunicipalidad">
-      Municipalidad <mat-icon>expand_more</mat-icon>
-    </button>
-    <mat-menu #menuMunicipalidad="matMenu">
-      <button mat-menu-item [routerLink]="'/multa'">Multa</button>
-    </mat-menu>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-content">
+      <div class="navbar-brand" routerLink="/menu">
+        <img src="/logoMuni.png" alt="Municipalidad de Chorrillos" class="logo-img" />
+        <div class="brand-text">
+          <span class="brand-title">Municipalidad de</span>
+          <span class="brand-subtitle">Chorrillos</span>
+        </div>
+      </div>
 
-    <button mat-button [routerLink]="'/fiscalizacion'">Fiscalización</button>
+      <!-- HAMBURGER MOBILE -->
+      <button class="mobile-toggle" (click)="toggleMobileMenu(); $event.stopPropagation()">
+        <span class="material-icons">{{ mobileMenuOpen ? 'close' : 'menu' }}</span>
+      </button>
 
-    <button mat-button [matMenuTriggerFor]="menuSistema">
-      Sistema <mat-icon>expand_more</mat-icon>
-    </button>
-    <mat-menu #menuSistema="matMenu">
-      <button mat-menu-item [routerLink]="'/infracciones'">Infracciones</button>
-      <button mat-menu-item [routerLink]="'/infractores'">Infractores</button>
-    </mat-menu>
+      <!-- NAV LINKS -->
+      <div class="nav-links" [class.active]="mobileMenuOpen">
+        <!-- Municipalidad dropdown -->
+        <div class="nav-item dropdown" (click)="$event.stopPropagation()">
+          <button class="nav-link" (click)="toggleDropdown('municipalidad')">
+            MUNICIPALIDAD
+            <span class="material-icons arrow" [class.rotated]="dropdownOpen === 'municipalidad'">expand_more</span>
+          </button>
+          <div class="dropdown-menu" *ngIf="dropdownOpen === 'municipalidad'">
+            <a class="dropdown-item" routerLink="/empleados" (click)="closeDropdowns()">
+              <span class="material-icons">people</span> Empleados
+            </a>
+            <a class="dropdown-item" routerLink="/multa" (click)="closeDropdowns()">
+              <span class="material-icons">receipt_long</span> Multas
+            </a>
+          </div>
+        </div>
 
-    <button mat-icon-button (click)="handleSalir()">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
+        <a class="nav-link" routerLink="/fiscalizacion">FISCALIZACION</a>
 
-  <div class="contenido-principal">
+        <!-- Sistema dropdown -->
+        <div class="nav-item dropdown" (click)="$event.stopPropagation()">
+          <button class="nav-link" (click)="toggleDropdown('sistema')">
+            SISTEMA
+            <span class="material-icons arrow" [class.rotated]="dropdownOpen === 'sistema'">expand_more</span>
+          </button>
+          <div class="dropdown-menu" *ngIf="dropdownOpen === 'sistema'">
+            <a class="dropdown-item" routerLink="/infracciones" (click)="closeDropdowns()">
+              <span class="material-icons">gavel</span> Infracciones
+            </a>
+            <a class="dropdown-item" routerLink="/infractores" (click)="closeDropdowns()">
+              <span class="material-icons">person_search</span> Infractores
+            </a>
+            <a class="dropdown-item" routerLink="/usuarios" (click)="closeDropdowns()">
+              <span class="material-icons">manage_accounts</span> Usuarios
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="nav-actions">
+        <div class="user-info">
+          <span class="material-icons">account_circle</span>
+          <span class="username">{{ username }}</span>
+        </div>
+        <button class="btn-logout" (click)="handleSalir()">
+          <span class="material-icons">logout</span>
+          <span class="logout-text">Salir</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Bienvenido al Sistema de Gestion Municipal</h1>
+      <p class="hero-subtitle">Plataforma integral de administracion y fiscalizacion del distrito de Chorrillos</p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="material-icons">gavel</span>
+          <div class="stat-info">
+            <span class="stat-number">Infracciones</span>
+            <span class="stat-label">Gestion y control</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="material-icons">people</span>
+          <div class="stat-info">
+            <span class="stat-number">Empleados</span>
+            <span class="stat-label">Administracion</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="material-icons">receipt_long</span>
+          <div class="stat-info">
+            <span class="stat-number">Multas</span>
+            <span class="stat-label">Seguimiento</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="material-icons">assignment</span>
+          <div class="stat-info">
+            <span class="stat-number">Fiscalizacion</span>
+            <span class="stat-label">Notificaciones</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
     <router-outlet></router-outlet>
-  </div>
+  </main>
 
-  <div class="accesos-rapidos">
-    <div class="card" routerLink="/licencia-funcionamiento">
-      <mat-icon>check_circle</mat-icon>
-      <p>Licencia de Funcionamiento</p>
+  <!-- ACCESOS RAPIDOS -->
+  <section class="accesos-section">
+    <h2 class="section-title">Accesos Rapidos</h2>
+    <div class="accesos-grid">
+      <div class="access-card" routerLink="/multa">
+        <div class="access-icon">
+          <span class="material-icons">receipt_long</span>
+        </div>
+        <h3>Consulta de Multas</h3>
+        <p>Buscar y gestionar multas municipales</p>
+      </div>
+      <div class="access-card" routerLink="/infracciones">
+        <div class="access-icon">
+          <span class="material-icons">gavel</span>
+        </div>
+        <h3>Infracciones</h3>
+        <p>Registro y control de infracciones</p>
+      </div>
+      <div class="access-card" routerLink="/infractores">
+        <div class="access-icon">
+          <span class="material-icons">person_search</span>
+        </div>
+        <h3>Infractores</h3>
+        <p>Gestion de infractores registrados</p>
+      </div>
+      <div class="access-card" routerLink="/empleados">
+        <div class="access-icon">
+          <span class="material-icons">badge</span>
+        </div>
+        <h3>Empleados</h3>
+        <p>Administracion de personal</p>
+      </div>
+      <div class="access-card" routerLink="/fiscalizacion">
+        <div class="access-icon">
+          <span class="material-icons">mark_email_read</span>
+        </div>
+        <h3>Fiscalizacion</h3>
+        <p>Envio de notificaciones</p>
+      </div>
     </div>
-    <div class="card" routerLink="/licencia-edificacion">
-      <mat-icon>business</mat-icon>
-      <p>Licencia de Edificación</p>
-    </div>
-    <div class="card" routerLink="/tributos">
-      <mat-icon>attach_money</mat-icon>
-      <p>Tributos Municipales</p>
-    </div>
-    <div class="card" routerLink="/mesa-virtual">
-      <mat-icon>computer</mat-icon>
-      <p>Mesa de Partes Virtual</p>
-    </div>
-    <div class="card" routerLink="/libro-reclamaciones">
-      <mat-icon>book</mat-icon>
-      <p>Libro de Reclamaciones</p>
-    </div>
-  </div>
+  </section>
 
-<div class="map-container">
-  <iframe
-    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.551622313018!2d-77.041752!3d-12.046373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8c6f7b12345%3A0xabcd123456789!2sMunicipalidad%20de%20Chorrillos!5e0!3m2!1ses!2spe!4v1700000000000"
-    allowfullscreen=""
-    loading="lazy"
-    referrerpolicy="no-referrer-when-downgrade">
-  </iframe>
+  <!-- MAP -->
+  <section class="map-section">
+    <h2 class="section-title">Ubicacion</h2>
+    <div class="map-wrapper">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.551622313018!2d-77.041752!3d-12.046373!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8c6f7b12345%3A0xabcd123456789!2sMunicipalidad%20de%20Chorrillos!5e0!3m2!1ses!2spe!4v1700000000000"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <img src="/logoMuni.png" alt="Logo" class="footer-logo" />
+        <div>
+          <strong>Municipalidad de Chorrillos</strong>
+          <p>Av. Defensores del Morro 261, Chorrillos - Lima</p>
+        </div>
+      </div>
+      <div class="footer-links">
+        <span>Portal Institucional</span>
+        <span class="separator">|</span>
+        <span>Transparencia</span>
+        <span class="separator">|</span>
+        <span>Contacto</span>
+      </div>
+      <p class="footer-copy">&copy; 2026 Municipalidad de Chorrillos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 </div>

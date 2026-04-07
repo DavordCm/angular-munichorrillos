@@ -5,14 +5,10 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class LoginUsuarioService {
-  private apiUrl = 'http://localhost:8081/api/usuarios/login/authenticate';
+  private apiUrl = 'http://localhost:8081/api/usuarios/login';
 
-  async autenticar(email: string, contraseña: string): Promise<any> {
-    try {
-      const response = await axios.post(this.apiUrl, { email, contraseña });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
+  async autenticar(email: string, contrasena: string): Promise<any> {
+    const response = await axios.post(this.apiUrl, { email, contrasena });
+    return response;
   }
 }

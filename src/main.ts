@@ -59,6 +59,18 @@ const routes: Routes = [
     canActivate: [authGuard]
   },
   {
+    path: 'usuarios',
+    loadComponent: () =>
+      import('./app/usuarios/usuarios').then(m => m.UsuariosComponent),
+    canActivate: [authGuard]
+  },
+  {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./app/dashboard-usuario/dashboard-usuario').then(m => m.DashboardUsuarioComponent),
+    canActivate: [authGuard]
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'

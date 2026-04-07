@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RegistroService } from './registro.service';
 
 @Component({
   selector: 'app-registro-usuario',
@@ -13,8 +12,8 @@ import { RegistroService } from './registro.service';
 })
 export class RegistroUsuario {
   formData = {
-    nombreU: '',
-    apellidoU: '',
+    nombre: '',
+    apellido: '',
     direccion: '',
     telefono: '',
     email: '',
@@ -25,41 +24,43 @@ export class RegistroUsuario {
   error: string | null = null;
   success: boolean = false;
 
-  constructor(
-    public router: Router,
-    private registroService: RegistroService
-  ) {}
+  constructor(public router: Router) {}
 
-  async handleSubmit(event: Event) {
+  handleSubmit(event: Event) {
     event.preventDefault();
-    const { nombreU, apellidoU, direccion, telefono, email, contrasena, confirmPassword } = this.formData;
+    const { nombre, apellido, direccion, telefono, email, contrasena, confirmPassword } = this.formData;
 
-    if (!nombreU || !apellidoU || !direccion || !telefono || !email || !contrasena || !confirmPassword) {
+    if (!nombre || !apellido || !direccion || !telefono || !email || !contrasena || !confirmPassword) {
       this.error = 'Todos los campos son obligatorios.';
       return;
     }
 
     if (contrasena !== confirmPassword) {
-      this.error = 'Las contraseñas no coinciden.';
+      this.error = 'Las contrasenas no coinciden.';
       return;
     }
 
-    try {
-      await this.registroService.registrarUsuario({
-        nombreU,
-        apellidoU,
-        direccion,
-        telefono,
-        email,
-        contraseña: contrasena
-      });
-
-      this.success = true;
-      this.error = null;
-      setTimeout(() => this.router.navigate(['/login_user']), 2000);
-    } catch (err) {
-      console.error('Error al registrar usuario:', err);
-      this.error = 'Error al registrar. Intenta nuevamente.';
+    // Guardar en localStorage
+    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    const existe = usuarios.find((u: any) => u.email === email);
+    if (existe) {
+      this.error = 'Ya existe un usuario con ese email.';
+      return;
     }
+
+    usuarios.push({
+      id: usuarios.length + 1,
+      nombre,
+      apellido,
+      direccion,
+      telefono,
+      email,
+      contrasena
+    });
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+    this.success = true;
+    this.error = null;
+    setTimeout(() => this.router.navigate(['/login_user']), 2000);
   }
 }

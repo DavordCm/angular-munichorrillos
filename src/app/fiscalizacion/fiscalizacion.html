@@ -1,86 +1,131 @@
-<div class="formulario-fiscalizacion">
-  <h2>Información Vehicular</h2>
-  <div class="form-group">
-    <label for="nroRodaje">Nro. de Rodaje:</label>
-    <input type="text" id="nroRodaje" [(ngModel)]="form.nroRodaje" name="nroRodaje" />
-  </div>
-  <div class="form-group">
-    <label for="nroMotor">Nro. de Motor:</label>
-    <input type="text" id="nroMotor" [(ngModel)]="form.nroMotor" name="nroMotor" />
-  </div>
-  <div class="form-group">
-    <label for="marca">Marca:</label>
-    <input type="text" id="marca" [(ngModel)]="form.marca" name="marca" />
-  </div>
-  <div class="form-group">
-    <label for="color">Color:</label>
-    <input type="text" id="color" [(ngModel)]="form.color" name="color" />
-  </div>
-  <div class="form-group">
-    <label for="placa">Placa:</label>
-    <input type="text" id="placa" [(ngModel)]="form.placa" name="placa" />
-  </div>
-  <div class="form-group">
-    <label for="modelo">Modelo:</label>
-    <input type="text" id="modelo" [(ngModel)]="form.modelo" name="modelo" />
-  </div>
+<div class="page-container">
+  <div class="page-card">
+    <div class="page-header">
+      <h1 class="page-title">Fiscalizacion - Generar Multa</h1>
+      <button class="btn-back" (click)="goBack()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
 
-  <h2>Información del Infractor</h2>
-  <div class="form-group">
-    <label for="dni">DNI:</label>
-    <input type="text" id="dni" [(ngModel)]="form.dni" name="dni" />
-  </div>
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input type="email" id="email" [(ngModel)]="form.email" name="email" />
-  </div>
-  <div class="form-group">
-    <label for="direccion">Dirección:</label>
-    <input type="text" id="direccion" [(ngModel)]="form.direccion" name="direccion" />
-  </div>
-  <div class="form-group">
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" [(ngModel)]="form.telefono" name="telefono" />
-  </div>
+    <!-- Informacion Vehicular -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="material-icons">directions_car</span>
+        Informacion Vehicular
+      </h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="nroRodaje">Nro. de Rodaje</label>
+          <input type="text" id="nroRodaje" [(ngModel)]="form.nroRodaje" name="nroRodaje" placeholder="Ingrese nro. de rodaje" />
+        </div>
+        <div class="form-field">
+          <label for="nroMotor">Nro. de Motor</label>
+          <input type="text" id="nroMotor" [(ngModel)]="form.nroMotor" name="nroMotor" placeholder="Ingrese nro. de motor" />
+        </div>
+        <div class="form-field">
+          <label for="marca">Marca</label>
+          <input type="text" id="marca" [(ngModel)]="form.marca" name="marca" placeholder="Ej: Toyota" />
+        </div>
+        <div class="form-field">
+          <label for="color">Color</label>
+          <input type="text" id="color" [(ngModel)]="form.color" name="color" placeholder="Ej: Blanco" />
+        </div>
+        <div class="form-field">
+          <label for="placa">Placa</label>
+          <input type="text" id="placa" [(ngModel)]="form.placa" name="placa" placeholder="ABC-123" />
+        </div>
+        <div class="form-field">
+          <label for="modelo">Modelo</label>
+          <input type="text" id="modelo" [(ngModel)]="form.modelo" name="modelo" placeholder="Ej: Corolla" />
+        </div>
+      </div>
+    </div>
 
-  <h2>Información Municipal</h2>
-  <div class="form-group">
-    <label for="lugar">Lugar:</label>
-    <input type="text" id="lugar" [(ngModel)]="form.lugar" name="lugar" />
-  </div>
-  <div class="form-group">
-    <label for="fecha">Fecha:</label>
-    <input type="date" id="fecha" [(ngModel)]="form.fecha" name="fecha" />
-  </div>
-  <div class="form-group">
-    <label for="hora">Hora:</label>
-    <input type="time" id="hora" [(ngModel)]="form.hora" name="hora" />
-  </div>
-  <div class="form-group">
-    <label for="tipoOrdenanza">Tipo de Ordenanza:</label>
-    <select id="tipoOrdenanza" [(ngModel)]="form.tipoOrdenanza" name="tipoOrdenanza">
-      <option value="opcion1">Opción 1</option>
-      <option value="opcion2">Opción 2</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="descripcion">Descripción:</label>
-    <textarea id="descripcion" [(ngModel)]="form.descripcion" name="descripcion" rows="4"></textarea>
-  </div>
+    <!-- Informacion del Infractor -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="material-icons">person</span>
+        Informacion del Infractor
+      </h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="dni">DNI</label>
+          <input type="text" id="dni" [(ngModel)]="form.dni" name="dni" placeholder="12345678" />
+        </div>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" [(ngModel)]="form.email" name="email" placeholder="correo@ejemplo.com" />
+        </div>
+        <div class="form-field">
+          <label for="direccion">Direccion</label>
+          <input type="text" id="direccion" [(ngModel)]="form.direccion" name="direccion" placeholder="Av. Principal 123" />
+        </div>
+        <div class="form-field">
+          <label for="telefono">Telefono</label>
+          <input type="tel" id="telefono" [(ngModel)]="form.telefono" name="telefono" placeholder="999 999 999" />
+        </div>
+      </div>
+    </div>
 
-  <h2>Observaciones</h2>
-  <div class="form-group">
-    <textarea id="observaciones" [(ngModel)]="form.observaciones" name="observaciones" rows="4"></textarea>
-  </div>
+    <!-- Informacion Municipal -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="material-icons">account_balance</span>
+        Informacion Municipal
+      </h3>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="lugar">Lugar</label>
+          <input type="text" id="lugar" [(ngModel)]="form.lugar" name="lugar" placeholder="Lugar de la infraccion" />
+        </div>
+        <div class="form-field">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" [(ngModel)]="form.fecha" name="fecha" />
+        </div>
+        <div class="form-field">
+          <label for="hora">Hora</label>
+          <input type="time" id="hora" [(ngModel)]="form.hora" name="hora" />
+        </div>
+        <div class="form-field">
+          <label for="tipoOrdenanza">Tipo de Ordenanza</label>
+          <select id="tipoOrdenanza" [(ngModel)]="form.tipoOrdenanza" name="tipoOrdenanza">
+            <option value="" disabled selected>Seleccione...</option>
+            <option value="opcion1">Opcion 1</option>
+            <option value="opcion2">Opcion 2</option>
+          </select>
+        </div>
+        <div class="form-field full-width">
+          <label for="descripcion">Descripcion</label>
+          <textarea id="descripcion" [(ngModel)]="form.descripcion" name="descripcion" rows="3" placeholder="Detalle de la infraccion..."></textarea>
+        </div>
+      </div>
+    </div>
 
-  <div class="form-group">
-    <label for="codigoPago">Código de Pago:</label>
-    <input type="text" id="codigoPago" [(ngModel)]="form.codigoPago" name="codigoPago" />
-  </div>
-  <div class="form-group">
-    <label for="montoPago">Monto a Pagar (S/):</label>
-    <input type="number" id="montoPago" [(ngModel)]="form.montoPago" name="montoPago" />
-  </div>
+    <!-- Observaciones -->
+    <div class="form-section">
+      <h3 class="form-section-title">
+        <span class="material-icons">notes</span>
+        Observaciones y Pago
+      </h3>
+      <div class="form-grid">
+        <div class="form-field full-width">
+          <label for="observaciones">Observaciones</label>
+          <textarea id="observaciones" [(ngModel)]="form.observaciones" name="observaciones" rows="3" placeholder="Observaciones adicionales..."></textarea>
+        </div>
+        <div class="form-field">
+          <label for="codigoPago">Codigo de Pago</label>
+          <input type="text" id="codigoPago" [(ngModel)]="form.codigoPago" name="codigoPago" placeholder="COD-001" />
+        </div>
+        <div class="form-field">
+          <label for="montoPago">Monto a Pagar (S/)</label>
+          <input type="number" id="montoPago" [(ngModel)]="form.montoPago" name="montoPago" placeholder="0.00" />
+        </div>
+      </div>
+    </div>
 
-  <button type="button" (click)="enviarCorreo()">Generar Multa</button>
+    <button class="btn-submit" (click)="enviarCorreo()">
+      <span class="material-icons">send</span>
+      Generar Multa
+    </button>
+  </div>
 </div>

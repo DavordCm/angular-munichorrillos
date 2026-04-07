@@ -15,6 +15,10 @@ export class FiscalizacionComponent {
 
   constructor(private multaService: GenerarMultaService) {}
 
+  goBack() {
+    history.back();
+  }
+
   enviarCorreo() {
     const payload = {
       to: this.form.email,

@@ -1,43 +1,54 @@
-<div class="contenedor">
+<div class="page-container">
+  <div class="page-card">
+    <div class="page-header">
+      <h1 class="page-title">Gestion de Multas</h1>
+      <button class="btn-back" (click)="volverAlMenu()">
+        <span class="material-icons">arrow_back</span>
+      </button>
+    </div>
 
-  <button mat-icon-button (click)="volverAlMenu()" class="btn-retroceder">
-    <mat-icon>arrow_back</mat-icon>
-  </button>
+    <!-- Search -->
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar por UID de multa..." [(ngModel)]="busquedaUid">
+      <button class="btn-search" (click)="buscarMulta()">Buscar</button>
+      <button class="btn-add" (click)="cargarMultas()">
+        <span class="material-icons">refresh</span>
+        RECARGAR
+      </button>
+    </div>
 
-  <div class="busqueda">
-    <input type="text" placeholder="Ingrese UID de la multa" [(ngModel)]="busquedaUid" />
-    <button (click)="buscarMulta()">Buscar</button>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Serie</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Placa</th>
+          <th>Propietario</th>
+          <th>Monto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let multa of multas">
+          <td>{{ multa.serieMulta }}</td>
+          <td>{{ multa.fechaMulta }}</td>
+          <td>{{ multa.horaMulta }}</td>
+          <td>{{ multa.placa }}</td>
+          <td>{{ multa.propietario }}</td>
+          <td>{{ multa.montoMulta | currency:'PEN':'symbol' }}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="btn-icon edit" (click)="cargarMultas()">
+                <span class="material-icons">edit</span>
+              </button>
+              <button class="btn-icon delete" (click)="eliminar(multa.id)">
+                <span class="material-icons">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-
-  <div class="botones-superiores">
-    <button class="agregar" (click)="cargarMultas()">Recargar Multas</button>
-  </div>
-
-  <table>
-    <thead>
-      <tr>
-        <th>Serie</th>
-        <th>Fecha</th>
-        <th>Hora</th>
-        <th>Placa</th>
-        <th>Propietario</th>
-        <th>Monto</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let multa of multas">
-        <td>{{ multa.serieMulta }}</td>
-        <td>{{ multa.fechaMulta }}</td>
-        <td>{{ multa.horaMulta }}</td>
-        <td>{{ multa.placa }}</td>
-        <td>{{ multa.propietario }}</td>
-        <td>{{ multa.montoMulta | currency:'PEN':'symbol' }}</td>
-        <td>
-          <button class="btn-actualizar" (click)="cargarMultas()">Actualizar</button>
-          <button class="btn-eliminar" (click)="eliminar(multa.uidMulta)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </div>

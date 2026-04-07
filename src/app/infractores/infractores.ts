@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { InfractoresService } from './infractores.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+interface Infractor {
+  id: number;
+  dniInfractor: string;
+  nombres: string;
+  apellidos: string;
+  direccion: string;
+  telefono: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-infractores',
@@ -12,104 +21,89 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./infractores.css']
 })
 export class InfractoresComponent implements OnInit {
-  infractores: any[] = [];
+  infractores: Infractor[] = [];
   busquedaUid: string = '';
+  showForm = false;
 
-  // Para el formulario
-  nuevoInfractor: any = {
-    dniInfractor: '',
-    nombres: '',
-    apellidos: '',
-    direccion: '',
-    telefono: '',
-    email: '',
-    password: ''
-  };
-  editarUid: string | null = null;
+  nuevoInfractor: any = { dniInfractor: '', nombres: '', apellidos: '', direccion: '', telefono: '', email: '' };
+  editarUid: number | null = null;
 
-  constructor(
-    private infractoresService: InfractoresService,
-    private router: Router
-  ) {}
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.cargarInfractores();
   }
 
-  cargarInfractores(): void {
-    this.infractoresService.obtenerInfractores()
-      .then(data => this.infractores = data)
-      .catch(err => console.error('Error al obtener infractores:', err));
+  private getStorage(): Infractor[] {
+    return JSON.parse(localStorage.getItem('infractores') || '[]');
   }
 
-  buscarInfractor(): void {
+  private saveStorage(data: Infractor[]) {
+    localStorage.setItem('infractores', JSON.stringify(data));
+  }
+
+  cargarInfractores() {
+    this.infractores = this.getStorage();
+    if (this.infractores.length === 0) {
+      this.infractores = [
+        { id: 1, dniInfractor: '12345678', nombres: 'Pedro', apellidos: 'Martinez', direccion: 'Av. Grau 100', telefono: '999888777', email: 'pmartinez@mail.com' },
+        { id: 2, dniInfractor: '87654321', nombres: 'Maria', apellidos: 'Sanchez', direccion: 'Jr. Union 200', telefono: '999666555', email: 'msanchez@mail.com' }
+      ];
+      this.saveStorage(this.infractores);
+    }
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+    if (!this.showForm) this.limpiarFormulario();
+  }
+
+  buscarInfractor() {
     if (!this.busquedaUid) {
       this.cargarInfractores();
       return;
     }
-    this.infractoresService.obtenerInfractorPorId(this.busquedaUid)
-      .then(data => {
-        if (data) {
-          this.infractores = [data];
-        } else {
-          alert('No se encontró infractor con ese UID');
-          this.cargarInfractores();
-        }
-      });
+    const all = this.getStorage();
+    const found = all.filter(i => i.id.toString() === this.busquedaUid || i.dniInfractor.includes(this.busquedaUid));
+    this.infractores = found;
   }
 
-  volverAMenu(): void {
-    this.router.navigate(['/menu']);
-  }
-
-  guardarInfractor(): void {
+  guardarInfractor() {
+    const all = this.getStorage();
     if (this.editarUid) {
-      this.infractoresService.actualizarInfractor(this.editarUid, this.nuevoInfractor)
-        .then(data => {
-          if (data) {
-            alert('Infractor actualizado');
-            this.cargarInfractores();
-            this.limpiarFormulario();
-          }
-        });
+      const idx = all.findIndex(i => i.id === this.editarUid);
+      if (idx >= 0) all[idx] = { ...all[idx], ...this.nuevoInfractor };
     } else {
+      const newId = all.length ? Math.max(...all.map(i => i.id)) + 1 : 1;
+      all.push({ ...this.nuevoInfractor, id: newId });
+    }
+    this.saveStorage(all);
+    this.cargarInfractores();
+    this.limpiarFormulario();
+    this.showForm = false;
+  }
 
-      this.infractoresService.crearInfractor(this.nuevoInfractor)
-        .then(data => {
-          if (data) {
-            alert('Infractor creado');
-            this.cargarInfractores();
-            this.limpiarFormulario();
-          }
-        });
+  editarInfractor(infractor: Infractor) {
+    this.editarUid = infractor.id;
+    this.nuevoInfractor = { ...infractor };
+    this.showForm = true;
+  }
+
+  eliminarInfractor(id: number) {
+    if (confirm('Seguro que deseas eliminar este infractor?')) {
+      let all = this.getStorage();
+      all = all.filter(i => i.id !== id);
+      this.saveStorage(all);
+      this.cargarInfractores();
     }
   }
 
-  editarInfractor(infractor: any): void {
-    this.editarUid = infractor.uidInfractor;
-    this.nuevoInfractor = { ...infractor };
-  }
-
-  eliminarInfractor(uid: string): void {
-    this.infractoresService.eliminarInfractor(uid)
-      .then(exito => {
-        if (exito) {
-          alert('Infractor eliminado');
-          this.cargarInfractores();
-        }
-      });
-  }
-
-  limpiarFormulario(): void {
-    this.nuevoInfractor = {
-      dniInfractor: '',
-      nombres: '',
-      apellidos: '',
-      direccion: '',
-      telefono: '',
-      email: '',
-      password: ''
-    };
+  limpiarFormulario() {
+    this.nuevoInfractor = { dniInfractor: '', nombres: '', apellidos: '', direccion: '', telefono: '', email: '' };
     this.editarUid = null;
+  }
+
+  volverAMenu() {
+    this.router.navigate(['/menu']);
   }
 }

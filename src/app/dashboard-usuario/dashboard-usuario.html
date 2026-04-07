@@ -1,0 +1,323 @@
+<div class="dashboard-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="/logoMuni.png" alt="Logo" class="sidebar-logo" />
+      <div class="sidebar-title">
+        <span class="title-small">Municipalidad de</span>
+        <span class="title-big">Chorrillos</span>
+      </div>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">
+        <span class="material-icons">account_circle</span>
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ username }}</span>
+        <span class="user-role">Ciudadano</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item" [class.active]="activeTab === 'inicio'" (click)="setTab('inicio')">
+        <span class="material-icons">dashboard</span>
+        Inicio
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'multas'" (click)="setTab('multas')">
+        <span class="material-icons">receipt_long</span>
+        Mis Multas
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'perfil'" (click)="setTab('perfil')">
+        <span class="material-icons">person</span>
+        Mi Perfil
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'reclamos'" (click)="setTab('reclamos')">
+        <span class="material-icons">support_agent</span>
+        Reclamos
+      </button>
+    </nav>
+
+    <button class="sidebar-logout" (click)="handleSalir()">
+      <span class="material-icons">logout</span>
+      Cerrar Sesion
+    </button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-main">
+    <!-- HEADER -->
+    <header class="dashboard-header">
+      <div>
+        <h1 class="header-title">
+          {{ activeTab === 'inicio' ? 'Bienvenido, ' + username : '' }}
+          {{ activeTab === 'multas' ? 'Mis Multas' : '' }}
+          {{ activeTab === 'perfil' ? 'Mi Perfil' : '' }}
+          {{ activeTab === 'reclamos' ? 'Libro de Reclamos' : '' }}
+        </h1>
+        <p class="header-subtitle">Portal del Ciudadano - Municipalidad de Chorrillos</p>
+      </div>
+      <div class="header-date">
+        <span class="material-icons">calendar_today</span>
+        {{ today }}
+      </div>
+    </header>
+
+    <!-- TAB: INICIO -->
+    <div *ngIf="activeTab === 'inicio'" class="tab-content">
+      <div class="stats-grid">
+        <div class="stat-card stat-warning">
+          <div class="stat-icon">
+            <span class="material-icons">warning</span>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">{{ getCantidadPendiente() }}</span>
+            <span class="stat-label">Multas Pendientes</span>
+          </div>
+        </div>
+        <div class="stat-card stat-success">
+          <div class="stat-icon">
+            <span class="material-icons">check_circle</span>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">{{ getCantidadPagada() }}</span>
+            <span class="stat-label">Multas Pagadas</span>
+          </div>
+        </div>
+        <div class="stat-card stat-danger">
+          <div class="stat-icon">
+            <span class="material-icons">payments</span>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">S/ {{ getTotalPendiente() }}</span>
+            <span class="stat-label">Deuda Total</span>
+          </div>
+        </div>
+        <div class="stat-card stat-info">
+          <div class="stat-icon">
+            <span class="material-icons">description</span>
+          </div>
+          <div class="stat-data">
+            <span class="stat-value">{{ reclamos.length }}</span>
+            <span class="stat-label">Reclamos Enviados</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accesos rapidos -->
+      <h2 class="section-label">Accesos Rapidos</h2>
+      <div class="quick-grid">
+        <div class="quick-card" (click)="setTab('multas')">
+          <span class="material-icons">receipt_long</span>
+          <span>Consultar Multas</span>
+        </div>
+        <div class="quick-card" (click)="setTab('perfil')">
+          <span class="material-icons">person</span>
+          <span>Editar Perfil</span>
+        </div>
+        <div class="quick-card" (click)="setTab('reclamos')">
+          <span class="material-icons">support_agent</span>
+          <span>Nuevo Reclamo</span>
+        </div>
+      </div>
+
+      <!-- Ultimas multas -->
+      <h2 class="section-label">Ultimas Multas</h2>
+      <div class="mini-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Serie</th>
+              <th>Fecha</th>
+              <th>Descripcion</th>
+              <th>Monto</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let multa of multasUsuario | slice:0:3">
+              <td>{{ multa.serie }}</td>
+              <td>{{ multa.fecha }}</td>
+              <td>{{ multa.descripcion }}</td>
+              <td>S/ {{ multa.monto }}</td>
+              <td>
+                <span class="badge" [class.badge-pending]="multa.estado === 'Pendiente'" [class.badge-paid]="multa.estado === 'Pagada'">
+                  {{ multa.estado }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TAB: MULTAS -->
+    <div *ngIf="activeTab === 'multas'" class="tab-content">
+      <div class="page-card">
+        <div class="search-bar">
+          <input type="text" placeholder="Buscar por placa o serie..." [(ngModel)]="busquedaPlaca" (input)="buscarMulta()" />
+          <button class="btn-search" (click)="buscarMulta()">Buscar</button>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Serie</th>
+              <th>Fecha</th>
+              <th>Placa</th>
+              <th>Descripcion</th>
+              <th>Monto</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let multa of multasFiltradas; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ multa.serie }}</td>
+              <td>{{ multa.fecha }}</td>
+              <td><strong>{{ multa.placa }}</strong></td>
+              <td>{{ multa.descripcion }}</td>
+              <td>S/ {{ multa.monto }}</td>
+              <td>
+                <span class="badge" [class.badge-pending]="multa.estado === 'Pendiente'" [class.badge-paid]="multa.estado === 'Pagada'">
+                  {{ multa.estado }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div *ngIf="multasFiltradas.length === 0" class="empty-state">
+          <span class="material-icons">search_off</span>
+          <p>No se encontraron multas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PERFIL -->
+    <div *ngIf="activeTab === 'perfil'" class="tab-content">
+      <div class="page-card profile-card">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <span class="material-icons">account_circle</span>
+          </div>
+          <div>
+            <h2>{{ perfil.nombre }}</h2>
+            <p>{{ perfil.email }}</p>
+          </div>
+        </div>
+
+        <div *ngIf="!editandoPerfil" class="profile-details">
+          <div class="detail-row">
+            <span class="detail-label"><span class="material-icons">badge</span> DNI</span>
+            <span class="detail-value">{{ perfil.dni }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label"><span class="material-icons">email</span> Email</span>
+            <span class="detail-value">{{ perfil.email }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label"><span class="material-icons">phone</span> Telefono</span>
+            <span class="detail-value">{{ perfil.telefono }}</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label"><span class="material-icons">home</span> Direccion</span>
+            <span class="detail-value">{{ perfil.direccion }}</span>
+          </div>
+          <button class="btn-add" style="margin-top:24px;" (click)="editarPerfil()">
+            <span class="material-icons">edit</span>
+            Editar Perfil
+          </button>
+        </div>
+
+        <div *ngIf="editandoPerfil" class="profile-edit">
+          <div class="form-field">
+            <label>Nombre</label>
+            <input type="text" [(ngModel)]="perfilForm.nombre" />
+          </div>
+          <div class="form-field">
+            <label>DNI</label>
+            <input type="text" [(ngModel)]="perfilForm.dni" />
+          </div>
+          <div class="form-field">
+            <label>Email</label>
+            <input type="email" [(ngModel)]="perfilForm.email" />
+          </div>
+          <div class="form-field">
+            <label>Telefono</label>
+            <input type="text" [(ngModel)]="perfilForm.telefono" />
+          </div>
+          <div class="form-field">
+            <label>Direccion</label>
+            <input type="text" [(ngModel)]="perfilForm.direccion" />
+          </div>
+          <div class="modal-actions" style="margin-top:20px;">
+            <button class="btn-save" (click)="guardarPerfil()">Guardar</button>
+            <button class="btn-cancel" (click)="editandoPerfil = false">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: RECLAMOS -->
+    <div *ngIf="activeTab === 'reclamos'" class="tab-content">
+      <div class="page-card">
+        <h2 class="card-title">Nuevo Reclamo</h2>
+        <div class="reclamo-form">
+          <div class="form-field">
+            <label>Tipo</label>
+            <select [(ngModel)]="reclamoForm.tipo">
+              <option value="Queja">Queja</option>
+              <option value="Reclamo">Reclamo</option>
+              <option value="Sugerencia">Sugerencia</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Asunto</label>
+            <input type="text" placeholder="Asunto del reclamo" [(ngModel)]="reclamoForm.asunto" />
+          </div>
+          <div class="form-field">
+            <label>Descripcion</label>
+            <textarea rows="4" placeholder="Describe tu reclamo en detalle..." [(ngModel)]="reclamoForm.descripcion"></textarea>
+          </div>
+          <button class="btn-add" (click)="enviarReclamo()">
+            <span class="material-icons">send</span>
+            Enviar Reclamo
+          </button>
+
+          <div *ngIf="reclamoEnviado" class="alert alert-success" style="margin-top:16px;">
+            <span class="material-icons">check_circle</span>
+            Reclamo enviado correctamente.
+          </div>
+        </div>
+
+        <div *ngIf="reclamos.length > 0" style="margin-top:32px;">
+          <h2 class="card-title">Mis Reclamos</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Asunto</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let r of reclamos; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ r.fecha }}</td>
+                <td>{{ r.tipo }}</td>
+                <td>{{ r.asunto }}</td>
+                <td>
+                  <span class="badge badge-pending">{{ r.estado }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
